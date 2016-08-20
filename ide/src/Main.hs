@@ -11,17 +11,16 @@ main = do
 
 
 openInEditor :: String -> IO ()
-openInEditor file = runCurses $ do
-    setEcho False
-    w <- defaultWindow
-    updateWindow w $ do
-        moveCursor 1 10
-        drawString $ "Editing file: " ++ file
-        moveCursor 3 10
-        drawString "(press q to quit)"
-        moveCursor 0 0
-    render
-    waitFor w (\ev -> ev == EventCharacter 'q' || ev == EventCharacter 'Q')
+openInEditor file = do
+    contents <- readFile file
+    runCurses $ do
+        setEcho False
+        w <- defaultWindow
+        updateWindow w $ do
+            drawString contents
+            drawString "\n(press q to quit)"
+        render
+        waitFor w (\ev -> ev == EventCharacter 'q' || ev == EventCharacter 'Q')
 
 waitFor :: Window -> (Event -> Bool) -> Curses ()
 waitFor w p = loop where
