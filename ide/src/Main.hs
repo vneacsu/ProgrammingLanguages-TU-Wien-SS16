@@ -22,9 +22,9 @@ openInEditor file = do
 
 renderCurrentContent :: Window -> String -> Curses ()
 renderCurrentContent w contents = do
-    updateWindow w $ do
-        drawString contents
-        moveCursor 0 0 
+    (nrows, ncolumns) <- screenSize
+    _ <- mapM (\line -> updateWindow w $ drawString $ line ++ "\n") $ map (take $ fromIntegral $ ncolumns - 1) $ take (fromIntegral $ nrows - 1) $ lines contents
+    updateWindow w $ moveCursor 0 0
     render
 
 dispatchEvents :: Window -> Curses ()
