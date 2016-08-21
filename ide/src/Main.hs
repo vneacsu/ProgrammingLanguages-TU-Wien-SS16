@@ -23,9 +23,16 @@ openInEditor file = do
 renderCurrentContent :: Window -> String -> Curses ()
 renderCurrentContent w contents = do
     (nrows, ncolumns) <- screenSize
-    _ <- mapM (\line -> updateWindow w $ drawString $ line ++ "\n") $ map (take $ fromIntegral $ ncolumns - 1) $ take (fromIntegral $ nrows - 1) $ lines contents
-    updateWindow w $ moveCursor 0 0
+    updateWindow w $ do 
+        drawString $ truncateContentToScreenSize contents nrows ncolumns
+        moveCursor 0 0
     render
+
+truncateContentToScreenSize :: String -> Integer -> Integer -> String
+truncateContentToScreenSize contents nrows ncolumns = 
+    concat $ map (truncateLine) $ take (fromIntegral $ nrows - 1) $ lines contents
+    where
+        truncateLine line = (take (fromIntegral $ ncolumns - 1) line) ++ "\n"
 
 dispatchEvents :: Window -> Curses ()
 dispatchEvents w = loop where
