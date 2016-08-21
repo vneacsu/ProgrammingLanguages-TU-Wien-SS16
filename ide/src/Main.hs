@@ -17,50 +17,60 @@ openInEditor file = do
     runCurses $ do
         setEcho False
         w <- defaultWindow
-        renderCurrentContent w contents
-        dispatchEvents w
+        dispatchEvents w contents 0 0 0 0
 
-renderCurrentContent :: Window -> String -> Curses ()
-renderCurrentContent w contents = do
-    (nrows, ncolumns) <- screenSize
-    updateWindow w $ do 
-        drawString $ truncateContentToScreenSize contents nrows ncolumns
-        moveCursor 0 0
-    render
+dispatchEvents :: Window -> String -> Integer -> Integer -> Integer -> Integer -> Curses ()
+dispatchEvents w contents frameRow frameCol cursorRow cursorCol = do
+    renderCurrentContent w contents frameRow frameCol cursorRow cursorCol
 
-truncateContentToScreenSize :: String -> Integer -> Integer -> String
-truncateContentToScreenSize contents nrows ncolumns = 
-    concat $ map (truncateLine) $ take (fromIntegral $ nrows - 1) $ lines contents
+    ev <- getEvent w Nothing
+    case ev of
+        Nothing -> dispatchEvents w contents frameRow frameCol cursorRow cursorCol
+        Just ev' -> do
+            case ev' of
+                EventCharacter '\ESC' -> return ()
+                EventSpecialKey KeyUpArrow -> updateCursor (cursorRow - 1) cursorCol
+                EventSpecialKey KeyRightArrow -> updateCursor cursorRow (cursorCol + 1)
+                EventSpecialKey KeyDownArrow -> updateCursor (cursorRow + 1) cursorCol
+                EventSpecialKey KeyLeftArrow -> updateCursor cursorRow (cursorCol - 1)
+                _ -> dispatchEvents w contents frameRow frameCol cursorRow cursorCol
     where
-        truncateLine line = (take (fromIntegral $ ncolumns - 1) line) ++ "\n"
+        updateCursor newRow newCol = do
+            (nrows, ncols) <- screenSize
 
-dispatchEvents :: Window -> Curses ()
-dispatchEvents w = loop where
-    loop = do
-        ev <- getEvent w Nothing
-        case ev of
-            Nothing -> loop
-            Just ev' -> do
-                case ev' of
-                    EventCharacter '\ESC' -> return ()
-                    _ -> do
-                        dispatchEditorEvent w ev'
-                        loop
+            if newRow < 0 then
+                if frameRow > 0 then
+                    dispatchEvents w contents (frameRow - 1) frameCol 0 newCol
+                else
+                    dispatchEvents w contents frameRow frameCol 0 newCol
 
-dispatchEditorEvent :: Window -> Event -> Curses ()
-dispatchEditorEvent w ev = case ev of
-    EventSpecialKey KeyUpArrow -> updateCursor w (-1) 0
-    EventSpecialKey KeyRightArrow -> updateCursor w 0 1
-    EventSpecialKey KeyDownArrow -> updateCursor w 1 0
-    EventSpecialKey KeyLeftArrow -> updateCursor w 0 (-1)
-    _ -> return ()
+            else if newCol < 0 then
+                if frameCol > 0 then
+                    dispatchEvents w contents frameRow (frameCol - 1) newRow 0
+                else
+                    dispatchEvents w contents frameRow frameCol newRow 0
 
-updateCursor :: Window -> Integer -> Integer -> Curses ()
-updateCursor w rowOffset columnOffset = do
-    (oldRow, oldColumn) <- getCursor w
-    insideWindow <- enclosed w (oldRow + rowOffset) (oldColumn + columnOffset)
-    if insideWindow then
-        updateWindow w $ moveCursor (oldRow + rowOffset) (oldColumn + columnOffset)
-    else 
-        return ()
+            else if newRow >= nrows then
+                dispatchEvents w contents (frameRow + 1) frameCol (nrows - 1) newCol 
+
+            else if newCol >= ncols then
+                dispatchEvents w contents frameRow (frameCol + 1) newRow (ncols - 1)
+
+            else
+                dispatchEvents w contents frameRow frameCol newRow newCol
+
+renderCurrentContent :: Window -> String -> Integer -> Integer -> Integer -> Integer -> Curses ()
+renderCurrentContent w contents frameRow frameCol cursorRow cursorCol = do
+    (nrows, ncols) <- screenSize
+    updateWindow w $ do 
+        clear 
+        drawString $ truncateContentToScreenSize contents frameRow frameCol nrows ncols
+        moveCursor cursorRow cursorCol
     render
+
+truncateContentToScreenSize :: String -> Integer -> Integer -> Integer -> Integer -> String
+truncateContentToScreenSize contents row col nrows ncols = 
+    concat $ map (truncateLine) getLines
+    where
+        getLines = take (fromIntegral $ nrows - 1) $ drop (fromIntegral row) $ lines contents
+        truncateLine line = (take (fromIntegral $ ncols - 1) $ drop (fromIntegral col) line) ++ "\n"
