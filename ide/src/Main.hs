@@ -50,7 +50,10 @@ dispatchEditorEvent w ev = case ev of
 
 updateCursor :: Window -> Integer -> Integer -> Curses ()
 updateCursor w rowOffset columnOffset = do
-    updateWindow w $ do
-        (row, column) <- cursorPosition
-        moveCursor (row + rowOffset) (column + columnOffset)
+    (oldRow, oldColumn) <- getCursor w
+    insideWindow <- enclosed w (oldRow + rowOffset) (oldColumn + columnOffset)
+    if insideWindow then
+        updateWindow w $ moveCursor (oldRow + rowOffset) (oldColumn + columnOffset)
+    else 
+        return ()
     render
