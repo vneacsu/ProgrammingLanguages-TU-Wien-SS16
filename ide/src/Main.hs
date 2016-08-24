@@ -4,7 +4,6 @@
 
 module Main where
 
-import System.Exit
 import System.Environment
 
 import Lens.Micro
@@ -44,10 +43,10 @@ appEvent st ev = M.continue =<< T.handleEventLensed st editor E.handleEditorEven
 
 initialState :: String -> St
 initialState content = 
-  St (E.editor Editor contentRenderer Nothing content)
+  St (E.editor Editor renderContent Nothing content)
 
-contentRenderer :: [String] -> T.Widget n
-contentRenderer theLines = render theLines Odd
+renderContent :: [String] -> T.Widget n
+renderContent theLines = render theLines Odd
   where
     render [] _ = str ""
     render (l:ls) Even = renderLine l "error" <=> (render ls Odd)
@@ -74,9 +73,8 @@ app =
 main :: IO ()
 main = do
   args <- getArgs
-  case length args of
-    0 -> die "USAGE: ide <file path>"
-    _ -> do
-      content <- readFile $ head args
-      st <- M.defaultMain app (initialState content)
-      putStrLn $ unlines $ E.getEditContents $ st^.editor
+  content <- case length args of
+    0 -> return ""
+    _ -> readFile $ head args
+  st <- M.defaultMain app (initialState content)
+  putStrLn $ unlines $ E.getEditContents $ st^.editor

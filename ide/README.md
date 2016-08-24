@@ -7,4 +7,4 @@
     
 # Build and Run
     stack build
-    stack exec ide <path to file to open in editor>
+    stack exec ide [<path to file to open in editor>]
