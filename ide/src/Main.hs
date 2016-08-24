@@ -10,19 +10,23 @@ import System.Environment
 import Lens.Micro
 import Lens.Micro.TH
 
-import Data.Default
+import Data.Text (pack)
+
 import qualified Graphics.Vty as V
 import qualified Brick.Widgets.Edit as E
+import Brick.Widgets.Core ((<+>), (<=>), str)
 import qualified Brick.Types as T
 import qualified Brick.Main as M
 
-import Brick.Widgets.Core
-  ( str
-  )
+import Brick.Util (fg)
+import Brick.Markup (markup, (@?))
+import Brick.AttrMap (attrMap, AttrMap)
 
 
 data Name = Editor
           deriving (Ord, Show, Eq)
+
+data Parity = Even | Odd
 
 data St =
   St { _editor :: E.Editor Name }
@@ -40,7 +44,22 @@ appEvent st ev = M.continue =<< T.handleEventLensed st editor E.handleEditorEven
 
 initialState :: String -> St
 initialState content = 
-  St (E.editor Editor (str . unlines) Nothing content)
+  St (E.editor Editor contentRenderer Nothing content)
+
+contentRenderer :: [String] -> T.Widget n
+contentRenderer theLines = render theLines Odd
+  where
+    render [] _ = str ""
+    render (l:ls) Even = renderLine l "error" <=> (render ls Odd)
+    render (l:ls) Odd = renderLine l "warn" <=> (render ls Even)
+
+    renderLine l mark = (markup $ (pack l @? mark)) <+> (str "\n")
+
+markupMap :: AttrMap
+markupMap = attrMap V.defAttr
+  [ ("error",   fg V.red) 
+  , ("warn",    fg V.green)
+  ]
 
 app :: M.App St V.Event Name
 app =
@@ -48,7 +67,7 @@ app =
           , M.appChooseCursor = M.showFirstCursor
           , M.appHandleEvent = appEvent
           , M.appStartEvent = return
-          , M.appAttrMap = const def
+          , M.appAttrMap = const markupMap
           , M.appLiftVtyEvent = id
           }
 

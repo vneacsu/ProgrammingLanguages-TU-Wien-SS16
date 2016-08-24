@@ -18,6 +18,6 @@ executable ide
   build-depends:       base >= 4.7 && < 5,
                        brick >= 0.8,
                        vty,
-                       data-default,
                        microlens,
-                       microlens-th
+                       microlens-th,
+                       text
