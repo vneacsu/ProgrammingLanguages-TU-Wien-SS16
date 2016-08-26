@@ -10,10 +10,11 @@ import Lens.Micro
 import Lens.Micro.TH
 
 import Data.Text (pack)
+import Data.List.Split (splitOn)
 
 import qualified Graphics.Vty as V
 import qualified Brick.Widgets.Edit as E
-import Brick.Widgets.Core ((<+>), (<=>), str)
+import Brick.Widgets.Core ((<+>), (<=>), str, emptyWidget)
 import qualified Brick.Types as T
 import qualified Brick.Main as M
 
@@ -21,6 +22,7 @@ import Brick.Util (fg)
 import Brick.Markup (markup, (@?))
 import Brick.AttrMap (attrMap, AttrMap)
 
+import Lexer
 
 data Name = Editor
           deriving (Ord, Show, Eq)
@@ -43,21 +45,35 @@ appEvent st ev = M.continue =<< T.handleEventLensed st editor E.handleEditorEven
 
 initialState :: String -> St
 initialState content = 
-  St (E.editor Editor renderContent Nothing content)
+  St (E.editor Editor renderLines Nothing content)
 
-renderContent :: [String] -> T.Widget n
-renderContent theLines = render theLines Odd
+renderLines :: [String] -> T.Widget n
+renderLines theLines = renderTokens $ tokenize $ unlines theLines
+ 
+renderTokens :: [Token] -> T.Widget n
+renderTokens tokens = joinLines $ renderTokLines $ splitTokLines tokens
   where
-    render [] _ = str ""
-    render (l:ls) Even = renderLine l "error" <=> (render ls Odd)
-    render (l:ls) Odd = renderLine l "warn" <=> (render ls Even)
+    splitTokLines toks = splitOn [NL] toks
 
-    renderLine l mark = (markup $ (pack l @? mark)) <+> (str "\n")
+    renderTokLines tokLines = map (renderTokLine) tokLines
+
+    renderTokLine [] = str "\n"
+    renderTokLine toks = foldl (<+>) emptyWidget $ map renderToken toks
+
+    joinLines [] = emptyWidget
+    joinLines (l:ls) = foldl (<=>) l ls
+
+    renderToken (ID s) = markup $ (pack s @? "id")
+    renderToken (OP c) = str [c]
+    renderToken (ERR c) = markup $ (pack [c] @? "error")
+    renderToken (WS c) = str [c]
+    renderToken EOF = str "" 
+    renderToken _ = error "Unexpected token" 
 
 markupMap :: AttrMap
 markupMap = attrMap V.defAttr
-  [ ("error",   fg V.red) 
-  , ("warn",    fg V.green)
+  [ ("id",    fg V.blue)
+  , ("error", fg V.red)
   ]
 
 app :: M.App St V.Event Name
