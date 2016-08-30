@@ -16,7 +16,9 @@ executable ide
   main-is:             Main.hs
   default-language:    Haskell2010
   other-modules:
-    Lexer
+    Lexer,
+    Parser,
+    Renderer
   build-depends:       base >= 4.7 && < 5,
                        brick >= 0.8,
                        vty,
