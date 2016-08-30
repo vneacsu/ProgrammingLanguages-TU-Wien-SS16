@@ -3,7 +3,8 @@ module Lexer where
 import Data.Char
 
 
-data TokenType = ID | STAR | LCURLY | RCURLY | SEMICOL | NL | WS | ERR | EOF
+data TokenType = ID | STAR | LCURLY | RCURLY | SEMICOL | CARET 
+               | NL | WS | ERR | EOF
   deriving (Show, Eq)
 
 data Token = Token { tokType :: TokenType 
@@ -16,7 +17,7 @@ tokenize :: String -> [Token]
 tokenize txt = tokenize' txt 0
 
 tokenize' :: String -> Int -> [Token]
-tokenize' [] s = [(Token EOF "" s)]
+tokenize' [] s = [(Token EOF " " s)]
 tokenize' t@(c:cs) s
   | elem c " \t" = whitespace t s
   | c == '\n' = (Token NL [c] s) : tokenize' cs (s + 1)
@@ -25,6 +26,7 @@ tokenize' t@(c:cs) s
   | c == '{' = (Token LCURLY [c] s) : tokenize' cs (s + 1)
   | c == '}' = (Token RCURLY [c] s) : tokenize' cs (s + 1)
   | c == ';' = (Token SEMICOL [c] s) : tokenize' cs (s + 1)
+  | c == '^' = (Token CARET [c] s) : tokenize' cs (s + 1)
   | otherwise = (Token ERR [c] s) : tokenize' cs (s + 1)
 
 

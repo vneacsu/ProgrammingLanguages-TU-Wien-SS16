@@ -35,8 +35,12 @@ appEvent st ev = M.continue =<< T.handleEventLensed st editor E.handleEditorEven
 
 initialState :: String -> St
 initialState content = 
-  St (E.editor Editor (render . unlines) Nothing content)
+  St (E.editor Editor (render . joinLines) Nothing content)
 
+joinLines :: [String] -> String
+joinLines [] = ""
+joinLines (l:[]) = l
+joinLines (l:ls) = l ++ "\n" ++ joinLines ls
 
 app :: M.App St V.Event Name
 app =
@@ -55,4 +59,4 @@ main = do
     0 -> return ""
     _ -> readFile $ head args
   st <- M.defaultMain app (initialState content)
-  putStrLn $ unlines $ E.getEditContents $ st^.editor
+  putStrLn $ joinLines $ E.getEditContents $ st^.editor

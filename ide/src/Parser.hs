@@ -4,34 +4,77 @@ import Data.List
 
 import Lexer
 
-data Block = Block Token
+data Block = Block Commands
     deriving (Show, Eq)
 
---data Commands = Cmd Command
---              | Cmds Command Commands
---    deriving (Show, Eq)
---
---data Command = ExprCmd Token
+data Commands = EmptyCmds
+              | Cmd Command
+              | Cmds Command Commands
+    deriving (Show, Eq)
 
---data Expression = Ref { stars :: [Token]
---                      , name :: Token
---                      } deriving (Show, Eq)
+data Command = ExprCmd Expression
+    deriving (Show, Eq)
+
+data Expression = Ref Token
+    deriving (Show, Eq)
 
 parse :: [Token] -> (Maybe Block, [Token])
-parse tokens = parse' tokens []
-    where
-        parse' toks errs = 
-            let (next, toks') = consume toks
-            in
-                if tokType next == LCURLY then
-                    (Just $ Block next, errs ++ (filter acceptsToken toks'))
-                else if tokType next == EOF then
-                    (Nothing, errs)
-                else
-                    let (b, errs') = parse' toks' []
-                    in
-                        (b, next:errs')
+parse toks =
+    let (next', toks') = consume toks
+    in
+        case tokType next' of
+            EOF -> (Nothing, [next'])
 
+            LCURLY ->
+                let (cmds'', toks'', errs'') = commands toks'
+                    (next'', rest'') = consume toks''
+                in
+                    case tokType next'' of
+                        RCURLY -> (Just $ Block cmds'', errs'' ++ trailingErrs rest'')
+
+                        _ -> (Just $ Block cmds'', errs'' ++ filter acceptsToken toks'')
+
+            _ -> 
+                let (b'', errs'') = parse toks'
+                in
+                    (b'', next':errs'')
+
+--parse tokens = parse' tokens []
+--    where
+--        parse' toks errs = 
+--            let (next, toks') = consume toks
+--            in
+--                if tokType next == LCURLY then
+--                    parse'' toks' errs 
+--                else if tokType next /= EOF
+--                    let (b, errs') = parse' toks' []
+--                    in
+--                        (b, next:errs')
+--                else
+--                    (EmptyBlock, errs)
+--
+--        parse'' toks errs =
+--            case tokType $ lookAhead toks of
+--                RCURLY -> 
+--                    let (_, rest) = consume toks
+--                        trailingErrs = filter acceptsToken rest
+--                    in
+--                        (EmptyBlock, errs ++ trailingErrs)
+--
+--                _ ->
+--                    let ((cmds, errs'), rest) = commands toks errs
+--                        trailingErrs = filter acceptsToken rest
+--                    in
+--                        (Block cmds, errs' + trailingErrs)
+
+commands :: [Token] -> (Commands, [Token], [Token])
+commands toks = (EmptyCmds, toks, [])
+
+--command :: [Token] -> [Token] -> (Maybe Command, [Token], [Token])
+--command toks errs = (Nothing, toks, errs)
+--
+--expression :: [Token] -> [Token] -> (Maybe Command, [Token], [Token])
+--expression toks errs = (Nothing, toks, errs)
 
 --data ParseTree = AddExpr Token ParseTree ParseTree
 --               | MulExpr Token ParseTree ParseTree
@@ -94,3 +137,6 @@ acceptsToken tok =
         Token WS _ _ -> False
         Token NL _ _ -> False
         _ -> True
+
+trailingErrs :: [Token] -> [Token]
+trailingErrs = filter (\t -> acceptsToken t && tokType t /= EOF)

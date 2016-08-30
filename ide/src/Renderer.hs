@@ -24,6 +24,7 @@ render :: String -> T.Widget n
 render txt =
     let toks = tokenize txt
         (_, errToks) = parse toks
+
         tokLines = splitWhen (\t -> tokType t == NL) toks
         widgetLines = (map . map) (\t -> renderToken t errToks) tokLines
         finalLines = map mergeHoriz widgetLines
@@ -34,8 +35,10 @@ render txt =
             case elem tok errToks of
                 True -> markup $ (pack $ text tok) @? "error"
                 False -> str $ text tok
+
         mergeHoriz [] = str "\n"
         mergeHoriz ws = foldl (<+>) emptyWidget ws
+        
         mergeVert ws = foldl (<=>) emptyWidget ws
 
 
