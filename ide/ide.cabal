@@ -21,6 +21,7 @@ executable ide
     Renderer
   build-depends:       base >= 4.7 && < 5,
                        brick >= 0.8,
+                       parsec,
                        vty,
                        microlens,
                        microlens-th,

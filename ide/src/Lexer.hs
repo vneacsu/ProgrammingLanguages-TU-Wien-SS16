@@ -1,7 +1,11 @@
-module Lexer where
+{-# LANGUAGE FlexibleContexts #-}
+module Lexer
+  ( TokenType(..)
+  , Token(..)
+  , tokenize
+  ) where
 
-import Data.Char
-
+import Text.ParserCombinators.Parsec hiding (token, tokens, alphaNum)
 
 data TokenType = ID | STAR | LCURLY | RCURLY | SEMICOL | CARET 
                | NL | WS | ERR | EOF
@@ -9,47 +13,37 @@ data TokenType = ID | STAR | LCURLY | RCURLY | SEMICOL | CARET
 
 data Token = Token { tokType :: TokenType 
                    , text :: String
-                   , start :: Int
+                   , pos :: SourcePos
                    } deriving (Show, Eq)
 
 
 tokenize :: String -> [Token]
-tokenize txt = tokenize' txt 0
+tokenize txt = let Right res = parse tokens "" txt in res
 
-tokenize' :: String -> Int -> [Token]
-tokenize' [] s = [(Token EOF " " s)]
-tokenize' t@(c:cs) s
-  | elem c " \t" = whitespace t s
-  | c == '\n' = (Token NL [c] s) : tokenize' cs (s + 1)
-  | isAlpha c = identifier t s
-  | c == '*' = (Token STAR [c] s) : tokenize' cs (s + 1)
-  | c == '{' = (Token LCURLY [c] s) : tokenize' cs (s + 1)
-  | c == '}' = (Token RCURLY [c] s) : tokenize' cs (s + 1)
-  | c == ';' = (Token SEMICOL [c] s) : tokenize' cs (s + 1)
-  | c == '^' = (Token CARET [c] s) : tokenize' cs (s + 1)
-  | otherwise = (Token ERR [c] s) : tokenize' cs (s + 1)
+tokens :: Parser [Token]
+tokens = do
+  toks <- many token
+  position <- getPosition
+  return $ toks ++ [Token EOF " " position]
 
-
-whitespace :: String -> Int -> [Token]
-whitespace txt s =
-  let (result, rest) = consumeWhile isWs txt 
-  in
-    (Token WS result s) : tokenize' rest (s + (length result))
+token :: Parser Token
+token = choice
+  [ accept STAR $ string "*"
+  , accept LCURLY $ string "{"
+  , accept RCURLY $ string "}"
+  , accept SEMICOL $ string ";"
+  , accept CARET $ string "^"
+  , accept NL $ string "\n"
+  , accept WS $ many1 $ oneOf " \t"
+  , accept ID $ do t <- oneOf alpha ; ts <- many $ oneOf alphaNum ; return (t:ts :: String)
+  , accept ERR $ do t <- anyToken ; return [t]
+  ]
   where
-    isWs c = elem c " \t"
+    alpha = ['A'..'Z'] ++ ['a'..'z'] ++ "_"
+    alphaNum = alpha ++ ['0'..'9']
 
-consumeWhile :: (Char -> Bool) -> String -> (String, String)
-consumeWhile p txt =
-  let match = takeWhile p txt
-      rest = dropWhile p txt
-  in
-    (match, rest)
-
-identifier :: String -> Int -> [Token]
-identifier txt s =
-  let (prefix, rest) = consumeWhile isAlpha txt
-      (postfix, rest') = consumeWhile isAlphaNum rest
-      name = prefix ++ postfix
-      newOffset = s + (length name)
-  in
-    (Token ID name s) : tokenize' rest' newOffset
+accept :: TokenType -> Parser String -> Parser Token
+accept tt p = do
+  position <- getPosition
+  txt <- p
+  return $ Token tt txt position
