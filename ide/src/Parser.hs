@@ -1,186 +1,119 @@
 {-# LANGUAGE FlexibleContexts #-}
 module Parser where
 
-import Data.List
-
+import Text.Parsec hiding (token, anyToken, satisfy, noneOf, oneOf)
+import Text.Parsec.Pos (updatePosString)
 import Lexer
---import Text.ParserCombinators.Parsec
---import Text.Parsec.Pos
---import Text.Parsec.Prim
 
 data Block = Block Commands
     deriving (Show, Eq)
 
-data Commands = EmptyCmds
-              | Cmds Command Commands
+data Commands = Cmds [Command]
     deriving (Show, Eq)
 
-data Command = ReturnCmd (Maybe Expression)
+data Command = GuardCmd Guard Commands
+             | AssgCmd Reference Expression
+             | ExprCmd Expression
+             | ReturnCmd Expression
     deriving (Show, Eq)
 
-data Expression = Ref Token
+data Guard = Guard [BoolExpr]
     deriving (Show, Eq)
 
+data BoolExpr = BoolEq Expression Expression
+    deriving (Show, Eq)
 
-parse :: [Token] -> (Maybe Block, [Token])
-parse tokens =
-    let (mb, rest, errs) = block tokens
-    in
-        case mb of
-            Just _ -> (mb, errs ++ trailingErrs errs)
+data Expression = AddExpr Primary [Token] [Expression]
+    deriving (Show, Eq)
 
-            Nothing ->
-                case null rest of
-                    True -> (Nothing, errs)
+data Primary = StrPrim Token
+             | BlockPrim Block
+             | RefPrim Reference
+             | ParensPrim Expression
+    deriving (Show, Eq)
 
-                    False ->
-                        let (mb', errs') = parse rest 
-                        in
-                            (mb', errs ++ errs')
+data Reference = Ref [Token] Token
+    deriving (Show, Eq)
 
+type Parser a = Parsec [Token] () a
 
-block :: [Token] -> (Maybe Block, [Token], [Token])
-block tokens =
-    let next = lookAhead tokens
-        rest = consume tokens
-    in
-        case tokType next of
-            LCURLY ->
-                let (cmds, toks, errs) = commands $ rest
-                    next' = lookAhead toks
-                    rest' = consume toks
-                in
-                    case tokType next' of
-                        RCURLY -> (Just $ Block cmds, rest', errs)
-
-                        _ -> (Just $ Block cmds, rest', errs ++ [next'])
-
-            _ -> (Nothing, rest, [next])
+parseLang :: [Token] -> Either ParseError Block
+parseLang toks = parse block "" $ filter (not.ignored) toks
+    where
+        ignored t = elem (tokType t) [WS, NL, COMMENT]
 
 
-commands :: [Token] -> (Commands, [Token], [Token])
-commands tokens =
-    let (cmd, rest, errs) = command tokens 
-    in
-        case cmd of
-            Nothing -> (EmptyCmds, rest, errs)
+block = between (token LCURLY) (token RCURLY) commands >>= \cmds -> return $ Block cmds
 
-            Just cmd' ->
-                let (cmds', rest', errs') = commands rest 
-                in
-                    (Cmds cmd' cmds', rest', errs ++ errs')
+commands = many command >>= \cmds -> return $ Cmds cmds
 
+command = guardCmd <|> assgCmd <|> exprCmd <|> retCmd
 
-command :: [Token] -> (Maybe Command, [Token], [Token])
-command tokens = (Nothing, tokens, [])
---    | isReturnCmd tokens = returnCmd tokens
---    | _ = let (next, rest) = (lookAhead tokens, consume tokens) in (Nothing, rest, [next])
---    where
---        isReturnCmd tokens = (tokType $ lookAhead tokens) == CARET
---
---        returnCmd tokens =
---            let (mexpr, rest, errs) = expression $ consume tokens
---            in
---                case null rest of
---                    True -> (ReturnCmd mexpr, rest, errs)
---
---                    False ->
---                        let (next', rest') = (lookAhead rest, consume rest)
---                        in
---                            case tokType next' of 
---                                SEMICOL -> (ReturnCmd mexpr, rest', errs)
---
---                                _ -> (ReturnCmd mexpr, rest', errs ++ [next'])
+guardCmd = between (token LBRACK) (token RBRACK) guardCmd'
+    where
+        guardCmd' = do
+            grd <- guard <* (token COLON)
+            cmds <- commands
+            return $ GuardCmd grd cmds
 
+guard = do
+    grd <- boolExpr
+    grds <- many (token COMMA *> boolExpr)
+    return $ Guard $ grd:grds
 
+boolExpr = do
+    left <- expr <* (oneOf [EQUAL, HASH])
+    right <- expr
+    return $ BoolEq left right
 
+assgCmd = do
+    ref <- try (reference <* token EQUAL)
+    val <- expr <* token SEMICOL
+    return $ AssgCmd ref val
 
-expression :: [Token] -> (Maybe Expression, [Token], [Token])
-expression tokens = (Nothing, tokens, [])
+exprCmd = expr <* token SEMICOL >>= \e -> return $ ExprCmd e
 
---data ParseTree = AddExpr Token ParseTree ParseTree
---               | MulExpr Token ParseTree ParseTree
---               | Id Token
---               deriving Show
---
---parse :: String -> ParseTree
---parse text = 
---    let (tree, _) = expression $ tokenize text
---    in
---        tree
---
---expression :: [Token] -> (ParseTree, [Token])
---expression toks =
---    let (termTree, toks') = term toks
---    in
---        case lookAhead toks' of
---            (OP op) | elem op "+-" ->
---                let (exprTree, toks'') = expression (accept toks')
---                in
---                    (AddExpr op termTree exprTree, toks'') 
---            _ -> (termTree, toks')
---
---term :: [Token] -> (ParseTree, [Token])
---term toks = (Id "abc", [])
-----    let (factTree, toks') = factor toks
-----    in
-----        case lookAhead toks' of
-----            (OP op) | elem op "*/" ->
-----                let (termTree, toks'') = term (accept toks')
-----                in
-----                    (MulExpr op factTree termTree, toks'')
-----            _ -> (factTree, toks')
-----
-----factor :: [Token] -> (ParseTree, [Token])
-----factor toks =
-----    case lookAhead toks of
-----        ID s -> (Id s, accept toks)
-----        WS c -> (Ws c, accept toks)
-----        _ -> error $ "Invalid token at: " ++ show toks
-----
+retCmd = token CARET *> expr <* token SEMICOL >>= \e -> return $ ReturnCmd e
 
-lookAhead :: [Token] -> Token
-lookAhead l = 
-    let e = find acceptsToken l
-    in
-        case e of
-            Nothing -> error "invalid lookAhead call"
-            Just e' -> e'
+expr = do
+    prim <- primary
+    primSuff <- many (token DOT *> token ID)
+    exprs <- many (token PLUS *> expr)
+    return $ AddExpr prim primSuff exprs
 
-consume :: [Token] -> [Token]
-consume l = tail $ dropWhile (not . acceptsToken) l
+primary = (token STRING >>= \t -> return $ StrPrim t)
+    <|> (token ERR_STRING >>= \t -> return $ StrPrim t)
+    <|> (block >>= \b -> return $ BlockPrim b)
+    <|> (reference >>= \r -> return $ RefPrim r)
+    <|> (parensExpr >>= \e -> return $ ParensPrim e)
+    where
+        parensExpr = between (token LPARENS) (token RPARENS) expr
 
-acceptsToken :: Token -> Bool
-acceptsToken tok =
-    case tok of
-        Token WS _ _ -> False
-        Token NL _ _ -> False
-        _ -> True
-
-trailingErrs :: [Token] -> [Token]
-trailingErrs = filter (\t -> acceptsToken t && tokType t /= EOF)
+reference = do
+    stars <- many $ token STAR
+    name <- token ID
+    return $ Ref stars name
 
 
---isToken :: (Stream s m Token) => TokenType -> ParsecT s u m Token
---isToken tt = tokenSatisfies (\t -> tokType t == tt)
---
---isNotToken :: (Stream s m Token) => TokenType -> ParsecT s u m Token
---isNotToken tt = tokenSatisfies (\t -> tokType t /= tt)
---
---tokenSatisfies f = tokenPrim (\t -> text t) 
---                             (\pos t _ -> updatePosString pos $ text t) 
---                             (\t -> if f t then Just t else Nothing)
---
---isAnyToken = tokenSatisfies (\_ -> True)
---
---block = do
---    prefs <- many (isNotToken LCURLY)
---    isToken LCURLY
---    trailing <- many isAnyToken
---    return $ prefs ++ trailing
---
---parseCSV :: String -> Either ParseError [Token]
---parseCSV input = parse block "(unknown)" $ tokenize input
---
---semi :: Stream s m Char => ParsecT s u m String
---semi = string ";"
+token :: TokenType -> Parser Token
+token tt = satisfy (\t -> tokType t == tt)
+
+notToken :: TokenType -> Parser Token
+notToken tt = satisfy (\t -> tokType t /= tt)
+
+noneOf :: [TokenType] -> Parser Token
+noneOf tts = satisfy (\t -> not $ elem (tokType t) tts)
+
+oneOf :: [TokenType] -> Parser Token
+oneOf tts = satisfy (\t -> elem (tokType t) tts)
+
+anyToken :: Parser Token
+anyToken = satisfy (\_ -> True)
+
+satisfy :: (Token -> Bool) -> Parser Token
+satisfy f = tokenPrim (\t -> text t) 
+                      advance
+                      (\t -> if f t then Just t else Nothing)
+    where
+        advance _ _ ((Token _ _ pos) : _) = pos
+        advance pos _ [] = pos

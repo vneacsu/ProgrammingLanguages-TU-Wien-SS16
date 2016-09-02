@@ -10,7 +10,7 @@ import Text.ParserCombinators.Parsec hiding (token, tokens, alphaNum)
 data TokenType = ID | STAR | LCURLY | RCURLY | SEMICOL | CARET 
                | LBRACK| RBRACK | COLON | EQUAL | HASH | COMMA | DOT 
                | LPARENS | RPARENS | PLUS | STRING | ERR_STRING
-               | NL | WS | ERR | EOF
+               | NL | WS | COMMENT | ERR | EOF
   deriving (Show, Eq)
 
 data Token = Token { tokType :: TokenType 
@@ -45,6 +45,7 @@ token = choice
   , accept LPARENS $ string "("
   , accept RPARENS $ string ")"
   , accept PLUS $ string "+"
+  , accept COMMENT $ char '%' *> (many $ noneOf "\n") >>= \comment -> return $ "%" ++ comment
   , accept STRING $ try $ do str <- strPrefix <* char '"' ; return $ "\"" ++ str ++ "\""
   , accept ERR_STRING $ try $ do str <- strPrefix <* (notFollowedBy $ char '"') ; return $ "\"" ++ str
   , accept NL $ string "\n"
