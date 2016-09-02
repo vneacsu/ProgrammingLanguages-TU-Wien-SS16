@@ -5,6 +5,10 @@
 module Main where
 
 import System.Environment
+import System.IO.Unsafe (unsafePerformIO)
+import System.IO.Error
+
+import Control.Monad (void)
 
 import Lens.Micro
 import Lens.Micro.TH
@@ -20,7 +24,8 @@ data Name = Editor
           deriving (Ord, Show, Eq)
 
 data St =
-  St { _editor :: E.Editor Name }
+  St { _fpath :: String
+     , _editor :: E.Editor Name }
 
 makeLenses ''St
 
@@ -31,11 +36,33 @@ drawUI st = [ui]
 
 appEvent :: St -> V.Event -> T.EventM Name (T.Next St)
 appEvent st (V.EvKey V.KEsc []) = M.halt st
+appEvent st (V.EvKey (V.KChar 's') [V.MCtrl]) = doSave st
 appEvent st ev = M.continue =<< T.handleEventLensed st editor E.handleEditorEvent ev
 
-initialState :: String -> St
-initialState content = 
-  St (E.editor Editor (render . joinLines) Nothing content)
+doSave :: St -> T.EventM Name (T.Next St)
+doSave st = 
+  case st^.fpath of
+    "" -> askFilePathAndSave st
+    _ -> save st
+  where
+    askFilePathAndSave st = M.suspendAndResume $ do
+      fp <- readAndSave st
+      return $ st & fpath .~ fp
+
+    readAndSave st = do
+      putStrLn "File path:"
+      fp <- getLine
+      catchIOError ((writeFile fp $ content st) >> return fp) (\_ -> putStrLn "Invalid file!!" >> readAndSave st)
+
+    save st = unsafePerformIO $ do
+      writeFile (st^.fpath) $ content st
+      return $ M.continue st
+
+    content st = joinLines $ E.getEditContents $ st^.editor
+
+initialState :: String -> String -> St
+initialState fp content = 
+  St fp (E.editor Editor (render . joinLines) Nothing content)
 
 joinLines :: [String] -> String
 joinLines [] = ""
@@ -55,8 +82,11 @@ app =
 main :: IO ()
 main = do
   args <- getArgs
-  content <- case length args of
-    0 -> return ""
-    _ -> readFile $ head args
-  st <- M.defaultMain app (initialState content)
-  putStrLn $ joinLines $ E.getEditContents $ st^.editor
+
+  fp <- case args of
+    [] -> return ""
+    _ -> return $ head args
+
+  content <- catchIOError (readFile fp) (\_ -> return "")
+
+  void $ M.defaultMain app (initialState fp content)
