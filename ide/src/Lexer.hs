@@ -8,6 +8,8 @@ module Lexer
 import Text.ParserCombinators.Parsec hiding (token, tokens, alphaNum)
 
 data TokenType = ID | STAR | LCURLY | RCURLY | SEMICOL | CARET 
+               | LBRACK| RBRACK | COLON | EQUAL | HASH | COMMA | DOT 
+               | LPARENS | RPARENS | PLUS | STRING | ERR_STRING
                | NL | WS | ERR | EOF
   deriving (Show, Eq)
 
@@ -33,14 +35,27 @@ token = choice
   , accept RCURLY $ string "}"
   , accept SEMICOL $ string ";"
   , accept CARET $ string "^"
+  , accept LBRACK $ string "["
+  , accept RBRACK $ string "]"
+  , accept COLON $ string ":"
+  , accept EQUAL $ string "="
+  , accept HASH $ string "#"
+  , accept COMMA $ string ","
+  , accept DOT $ string "."
+  , accept LPARENS $ string "("
+  , accept RPARENS $ string ")"
+  , accept PLUS $ string "+"
+  , accept STRING $ try $ do str <- strPrefix <* char '"' ; return $ "\"" ++ str ++ "\""
+  , accept ERR_STRING $ try $ do str <- strPrefix <* (notFollowedBy $ char '"') ; return $ "\"" ++ str
   , accept NL $ string "\n"
   , accept WS $ many1 $ oneOf " \t"
-  , accept ID $ do t <- oneOf alpha ; ts <- many $ oneOf alphaNum ; return (t:ts :: String)
+  , accept ID $ do t <- oneOf alpha ; ts <- many $ oneOf alphaNum ; return $ (t:ts :: String)
   , accept ERR $ do t <- anyToken ; return [t]
   ]
   where
     alpha = ['A'..'Z'] ++ ['a'..'z'] ++ "_"
     alphaNum = alpha ++ ['0'..'9']
+    strPrefix = char '"' *> many (noneOf "\"\n")
 
 accept :: TokenType -> Parser String -> Parser Token
 accept tt p = do
