@@ -7,6 +7,6 @@
 # Useful commands:
  
 1. `make` - build lexer and parser from `Interpreter.g4`
-2. `make tokens` - parse input text for tokens
-3. `make tree` - parse input text and print parsing tree
+2. `make tokens [file=...]` - parse text for tokens
+3. `make tree [file=...]` - parse text and print parsing tree
    
