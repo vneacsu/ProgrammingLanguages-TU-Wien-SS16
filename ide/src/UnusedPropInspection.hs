@@ -42,26 +42,29 @@ findAllAssgs tree = visitBlock tree
                                _ -> []
 
 isPropUsed :: Token -> Block -> Int -> Bool
-isPropUsed prop scope nestingLevel = visitBlock (text prop) scope nestingLevel
+isPropUsed p scope nestingLevel = visitBlock p scope nestingLevel
     where
-        visitBlock name (Block commands) nesting = visitCommands name commands nesting
+        visitBlock prop (Block commands) nesting = visitCommands prop commands nesting
 
-        visitCommands name (Cmds cmds) nesting = any (\c -> visitCommand name c nesting) cmds
+        visitCommands prop (Cmds cmds) nesting = any (\c -> visitCommand prop c nesting) cmds
 
-        visitCommand name (GuardCmd guard commands) nesting = (visitGuard name guard nesting) || (visitCommands name commands nesting)
-        visitCommand name (ExprCmd expr) nesting = visitExpression name expr nesting
-        visitCommand name (ReturnCmd expr) nesting = visitExpression name expr nesting
-        visitCommand name (AssgCmd _ expr) nesting = visitExpression name expr nesting
+        visitCommand prop (GuardCmd guard commands) nesting = (visitGuard prop guard nesting) || (visitCommands prop commands nesting)
+        visitCommand prop (ExprCmd expr) nesting = visitExpression prop expr nesting
+        visitCommand prop (ReturnCmd expr) nesting = visitExpression prop expr nesting
+        visitCommand prop (AssgCmd _ expr) nesting = visitExpression prop expr nesting
 
-        visitGuard name (Guard bools) nesting = any (\b -> visitBoolExpr name b nesting) bools
+        visitGuard prop (Guard bools) nesting = any (\b -> visitBoolExpr prop b nesting) bools
 
-        visitBoolExpr name (BoolEq e1 e2) nesting = (visitExpression name e1 nesting) || (visitExpression name e2 nesting)
+        visitBoolExpr prop (BoolEq e1 e2) nesting = (visitExpression prop e1 nesting) || (visitExpression prop e2 nesting)
 
-        visitExpression name (AddExpr primary _ exprs) nesting = (visitPrimary name primary nesting) || (any (\e -> visitExpression name e nesting) exprs)
+        visitExpression prop (AddExpr primary _ exprs) nesting = (visitPrimary prop primary nesting) || (any (\e -> visitExpression prop e nesting) exprs)
 
-        visitPrimary name (BlockPrim b) nesting = visitBlock name b (nesting + 1)
-        visitPrimary name (RefPrim ref) nesting = visitReference name ref nesting
-        visitPrimary name (ParensPrim e) nesting = visitExpression name e nesting
+        visitPrimary prop (BlockPrim b) nesting = visitBlock prop b (nesting + 1)
+        visitPrimary prop (RefPrim ref) nesting = visitReference prop ref nesting
+        visitPrimary prop (ParensPrim e) nesting = visitExpression prop e nesting
         visitPrimary _ _ _ = False
 
-        visitReference name (Ref stars (Token _ refName _)) nesting = (length stars == nesting) && (name == refName)
+        visitReference prop (Ref stars ref) nesting = 
+            (length stars == nesting) && 
+            isAfter ref prop &&
+            (text prop == text ref)
