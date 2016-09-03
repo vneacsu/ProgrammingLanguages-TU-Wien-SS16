@@ -17,6 +17,7 @@ import Text.Parsec.Error
 import Lexer
 import Parser
 import UnusedPropInspection
+import UndeclaredPropInspection
 
 markupMap :: AttrMap
 markupMap = attrMap V.defAttr
@@ -57,4 +58,8 @@ render txt =
         
         mergeVert ws = foldl (<=>) emptyWidget ws
 
-        inspect tree = inspectUnused tree
+        inspect tree = joinInspectionResults $ map (\i -> i tree) inspections
+
+        joinInspectionResults = foldl (\(warnsAcc, errsAcc) (warns, errs) -> (warnsAcc ++ warns, errsAcc ++ errs)) ([], [])
+
+        inspections = [inspectUnused, inspectUndeclared]

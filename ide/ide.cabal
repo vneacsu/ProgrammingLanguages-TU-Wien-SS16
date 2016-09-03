@@ -19,7 +19,8 @@ executable ide
     Lexer,
     Parser,
     Renderer,
-    UnusedPropInspection
+    UnusedPropInspection,
+    UndeclaredPropInspection
   build-depends:       base >= 4.7 && < 5,
                        brick >= 0.8,
                        parsec,
