@@ -13,3 +13,6 @@ gui:
 
 clean:
 	rm -rf *.java *.class
+
+py:
+	java -jar $(ANTLR_PATH) -visitor -Dlanguage=Python3 Interpreter.g4

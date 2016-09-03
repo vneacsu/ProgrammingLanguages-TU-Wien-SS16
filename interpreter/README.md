@@ -9,4 +9,6 @@
 1. `make` - build lexer and parser from `Interpreter.g4`
 2. `make tokens [file=...]` - parse text for tokens
 3. `make tree [file=...]` - parse text and print parsing tree
+4. `make py` - generate python template
+5. `python Interpreter.py [file]` - run interpreter 
    

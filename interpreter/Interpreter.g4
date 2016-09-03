@@ -9,11 +9,19 @@ command : '[' guard ':' (command)* ']'
 
 guard : expression ( '=' | '#' ) expression (',' guard )? ;
 
-expression : ( STRING | block | ('*')* IDENTIFIER | '(' expression ')' ) ('.' IDENTIFIER)* ('+' expression)? ;
+expression  : STRING                            # string
+            | block                             # blk
+            | ('*')* IDENTIFIER                 # identifier
+            | '(' expression ')'                # parenthesis
+            | expression ('.' IDENTIFIER)+      # subobj
+            | expression '+' expression         # add
+            ;
 
 IDENTIFIER : [a-z]+ ;
 
-STRING: '"' (~'"')* '"';
+STRING : '"' (~'"')* '"';
+
+ADD : '+' ;
 
 WS : [ \t\r\n]+ -> skip ;           // skip spaces, tabs, newlines, \r (Windows)
 COMMENTS : '%' .*? '\n' -> skip ;   // skip comments
