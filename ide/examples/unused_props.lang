@@ -1,5 +1,6 @@
 {
     % err cases
+    before = a;
     a = "123";
     [ { x = a; } = { y = *x; } : z = ({ e = z; }.io + { f = ""; }); ]
 
