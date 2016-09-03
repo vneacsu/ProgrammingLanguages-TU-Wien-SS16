@@ -18,7 +18,8 @@ executable ide
   other-modules:
     Lexer,
     Parser,
-    Renderer
+    Renderer,
+    UnusedPropInspection
   build-depends:       base >= 4.7 && < 5,
                        brick >= 0.8,
                        parsec,

@@ -45,20 +45,20 @@ doSave st =
     "" -> askFilePathAndSave st
     _ -> save st
   where
-    askFilePathAndSave st = M.suspendAndResume $ do
-      fp <- readAndSave st
-      return $ st & fpath .~ fp
+    askFilePathAndSave st' = M.suspendAndResume $ do
+      fp <- readAndSave st'
+      return $ st' & fpath .~ fp
 
-    readAndSave st = do
+    readAndSave st' = do
       putStrLn "File path:"
       fp <- getLine
-      catchIOError ((writeFile fp $ content st) >> return fp) (\_ -> putStrLn "Invalid file!!" >> readAndSave st)
+      catchIOError ((writeFile fp $ content st') >> return fp) (\_ -> putStrLn "Invalid file!!" >> readAndSave st)
 
-    save st = unsafePerformIO $ do
-      writeFile (st^.fpath) $ content st
-      return $ M.continue st
+    save st' = unsafePerformIO $ do
+      writeFile (st'^.fpath) $ content st'
+      return $ M.continue st'
 
-    content st = joinLines $ E.getEditContents $ st^.editor
+    content st' = joinLines $ E.getEditContents $ st'^.editor
 
 initialState :: String -> String -> St
 initialState fp content = 
