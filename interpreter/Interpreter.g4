@@ -15,4 +15,5 @@ IDENTIFIER : [a-z]+ ;
 
 STRING: '"' (~'"')* '"';
 
-WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines, \r (Windows)
+WS : [ \t\r\n]+ -> skip ;           // skip spaces, tabs, newlines, \r (Windows)
+COMMENTS : '%' .*? '\n' -> skip ;   // skip comments
