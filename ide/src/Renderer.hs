@@ -23,7 +23,11 @@ markupMap :: AttrMap
 markupMap = attrMap V.defAttr
   [ ("error", bg V.red)
   , ("warning", bg V.yellow)
-  , ("comment", fg V.white)
+  , ("comment", fg $ V.rgbColor 80 80 80)
+  , ("ret", fg V.brightMagenta)
+  , ("guard", fg V.blue)
+  , ("string", fg V.green)
+  , ("normal", fg V.brightWhite)
   ]
 
 render :: String -> T.Widget n
@@ -48,8 +52,14 @@ render txt =
                 markup $ (pack $ text tok) @? "warning"
             else if tokType tok == COMMENT then
                 markup $ (pack $ text tok) @? "comment"
+            else if tokType tok == CARET then
+                markup $ (pack $ text tok) @? "ret"
+            else if elem (tokType tok) [RBRACK, LBRACK] then
+                markup $ (pack $ text tok) @? "guard"
+            else if tokType tok == STRING then
+                markup $ (pack $ text tok) @? "string"
             else
-                str $ text tok
+                markup $ (pack $ text tok) @? "normal"
 
         isErr tok errToks = (elem tok errToks) || (elem (tokType tok) [ERR_STRING])
 
