@@ -1,4 +1,7 @@
 default:
+	java -jar $(ANTLR_PATH) -visitor -Dlanguage=Python3 Interpreter.g4
+
+java:
 	java -jar $(ANTLR_PATH) Interpreter.g4
 	javac *.java
 
@@ -14,5 +17,3 @@ gui:
 clean:
 	rm -rf *.java *.class
 
-py:
-	java -jar $(ANTLR_PATH) -visitor -Dlanguage=Python3 Interpreter.g4

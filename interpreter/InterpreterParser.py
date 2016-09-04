@@ -6,35 +6,34 @@ from io import StringIO
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\25")
-        buf.write("X\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\3\2\3\2\7\2\r\n\2\f")
-        buf.write("\2\16\2\20\13\2\3\2\3\2\3\3\3\3\3\3\3\3\7\3\30\n\3\f\3")
-        buf.write("\16\3\33\13\3\3\3\3\3\3\3\7\3 \n\3\f\3\16\3#\13\3\3\3")
-        buf.write("\3\3\5\3\'\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\60\n\3")
-        buf.write("\3\4\3\4\3\4\3\4\3\4\5\4\67\n\4\3\5\3\5\3\5\3\5\7\5=\n")
-        buf.write("\5\f\5\16\5@\13\5\3\5\3\5\3\5\3\5\3\5\5\5G\n\5\3\5\3\5")
-        buf.write("\3\5\3\5\3\5\3\5\6\5O\n\5\r\5\16\5P\7\5S\n\5\f\5\16\5")
-        buf.write("V\13\5\3\5\2\3\b\6\2\4\6\b\2\3\4\2\t\t\f\fa\2\n\3\2\2")
-        buf.write("\2\4/\3\2\2\2\6\61\3\2\2\2\bF\3\2\2\2\n\16\7\3\2\2\13")
-        buf.write("\r\5\4\3\2\f\13\3\2\2\2\r\20\3\2\2\2\16\f\3\2\2\2\16\17")
-        buf.write("\3\2\2\2\17\21\3\2\2\2\20\16\3\2\2\2\21\22\7\4\2\2\22")
-        buf.write("\3\3\2\2\2\23\24\7\5\2\2\24\25\5\6\4\2\25\31\7\6\2\2\26")
-        buf.write("\30\5\4\3\2\27\26\3\2\2\2\30\33\3\2\2\2\31\27\3\2\2\2")
-        buf.write("\31\32\3\2\2\2\32\34\3\2\2\2\33\31\3\2\2\2\34\35\7\7\2")
-        buf.write("\2\35\60\3\2\2\2\36 \7\b\2\2\37\36\3\2\2\2 #\3\2\2\2!")
-        buf.write("\37\3\2\2\2!\"\3\2\2\2\"$\3\2\2\2#!\3\2\2\2$%\7\21\2\2")
-        buf.write("%\'\7\t\2\2&!\3\2\2\2&\'\3\2\2\2\'(\3\2\2\2()\5\b\5\2")
-        buf.write(")*\7\n\2\2*\60\3\2\2\2+,\7\13\2\2,-\5\b\5\2-.\7\n\2\2")
-        buf.write(".\60\3\2\2\2/\23\3\2\2\2/&\3\2\2\2/+\3\2\2\2\60\5\3\2")
-        buf.write("\2\2\61\62\5\b\5\2\62\63\t\2\2\2\63\66\5\b\5\2\64\65\7")
-        buf.write("\r\2\2\65\67\5\6\4\2\66\64\3\2\2\2\66\67\3\2\2\2\67\7")
-        buf.write("\3\2\2\289\b\5\1\29G\7\22\2\2:G\5\2\2\2;=\7\b\2\2<;\3")
-        buf.write("\2\2\2=@\3\2\2\2><\3\2\2\2>?\3\2\2\2?A\3\2\2\2@>\3\2\2")
-        buf.write("\2AG\7\21\2\2BC\7\16\2\2CD\5\b\5\2DE\7\17\2\2EG\3\2\2")
-        buf.write("\2F8\3\2\2\2F:\3\2\2\2F>\3\2\2\2FB\3\2\2\2GT\3\2\2\2H")
-        buf.write("I\f\3\2\2IJ\7\23\2\2JS\5\b\5\4KN\f\4\2\2LM\7\20\2\2MO")
-        buf.write("\7\21\2\2NL\3\2\2\2OP\3\2\2\2PN\3\2\2\2PQ\3\2\2\2QS\3")
-        buf.write("\2\2\2RH\3\2\2\2RK\3\2\2\2SV\3\2\2\2TR\3\2\2\2TU\3\2\2")
-        buf.write("\2U\t\3\2\2\2VT\3\2\2\2\r\16\31!&/\66>FPRT")
+        buf.write("W\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\7\2")
+        buf.write("\17\n\2\f\2\16\2\22\13\2\3\2\3\2\3\3\3\3\3\3\3\3\7\3\32")
+        buf.write("\n\3\f\3\16\3\35\13\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3")
+        buf.write("\3\3\3\3\3\3\3\3\3\3\3\3\5\3-\n\3\3\4\3\4\3\4\3\4\3\4")
+        buf.write("\5\4\64\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5>\n\5\3")
+        buf.write("\5\3\5\3\5\3\5\3\5\3\5\6\5F\n\5\r\5\16\5G\7\5J\n\5\f\5")
+        buf.write("\16\5M\13\5\3\6\7\6P\n\6\f\6\16\6S\13\6\3\6\3\6\3\6\2")
+        buf.write("\3\b\7\2\4\6\b\n\2\3\4\2\b\b\13\13^\2\f\3\2\2\2\4,\3\2")
+        buf.write("\2\2\6.\3\2\2\2\b=\3\2\2\2\nQ\3\2\2\2\f\20\7\3\2\2\r\17")
+        buf.write("\5\4\3\2\16\r\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2\20\21")
+        buf.write("\3\2\2\2\21\23\3\2\2\2\22\20\3\2\2\2\23\24\7\4\2\2\24")
+        buf.write("\3\3\2\2\2\25\26\7\5\2\2\26\27\5\6\4\2\27\33\7\6\2\2\30")
+        buf.write("\32\5\4\3\2\31\30\3\2\2\2\32\35\3\2\2\2\33\31\3\2\2\2")
+        buf.write("\33\34\3\2\2\2\34\36\3\2\2\2\35\33\3\2\2\2\36\37\7\7\2")
+        buf.write("\2\37-\3\2\2\2 !\5\n\6\2!\"\7\b\2\2\"#\5\b\5\2#$\7\t\2")
+        buf.write("\2$-\3\2\2\2%&\5\b\5\2&\'\7\t\2\2\'-\3\2\2\2()\7\n\2\2")
+        buf.write(")*\5\b\5\2*+\7\t\2\2+-\3\2\2\2,\25\3\2\2\2, \3\2\2\2,")
+        buf.write("%\3\2\2\2,(\3\2\2\2-\5\3\2\2\2./\5\b\5\2/\60\t\2\2\2\60")
+        buf.write("\63\5\b\5\2\61\62\7\f\2\2\62\64\5\6\4\2\63\61\3\2\2\2")
+        buf.write("\63\64\3\2\2\2\64\7\3\2\2\2\65\66\b\5\1\2\66>\7\22\2\2")
+        buf.write("\67>\5\2\2\28>\5\n\6\29:\7\r\2\2:;\5\b\5\2;<\7\16\2\2")
+        buf.write("<>\3\2\2\2=\65\3\2\2\2=\67\3\2\2\2=8\3\2\2\2=9\3\2\2\2")
+        buf.write(">K\3\2\2\2?@\f\3\2\2@A\7\23\2\2AJ\5\b\5\4BE\f\4\2\2CD")
+        buf.write("\7\17\2\2DF\7\21\2\2EC\3\2\2\2FG\3\2\2\2GE\3\2\2\2GH\3")
+        buf.write("\2\2\2HJ\3\2\2\2I?\3\2\2\2IB\3\2\2\2JM\3\2\2\2KI\3\2\2")
+        buf.write("\2KL\3\2\2\2L\t\3\2\2\2MK\3\2\2\2NP\7\20\2\2ON\3\2\2\2")
+        buf.write("PS\3\2\2\2QO\3\2\2\2QR\3\2\2\2RT\3\2\2\2SQ\3\2\2\2TU\7")
+        buf.write("\21\2\2U\13\3\2\2\2\13\20\33,\63=GIKQ")
         return buf.getvalue()
 
 
@@ -48,8 +47,8 @@ class InterpreterParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'{'", "'}'", "'['", "':'", "']'", "'*'", 
-                     "'='", "';'", "'^'", "'#'", "','", "'('", "')'", "'.'", 
+    literalNames = [ "<INVALID>", "'{'", "'}'", "'['", "':'", "']'", "'='", 
+                     "';'", "'^'", "'#'", "','", "'('", "')'", "'.'", "'*'", 
                      "<INVALID>", "<INVALID>", "'+'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
@@ -62,8 +61,9 @@ class InterpreterParser ( Parser ):
     RULE_command = 1
     RULE_guard = 2
     RULE_expression = 3
+    RULE_reference = 4
 
-    ruleNames =  [ "block", "command", "guard", "expression" ]
+    ruleNames =  [ "block", "command", "guard", "expression", "reference" ]
 
     EOF = Token.EOF
     T__0=1
@@ -134,19 +134,19 @@ class InterpreterParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 8
+            self.state = 10
             self.match(InterpreterParser.T__0)
-            self.state = 12
+            self.state = 14
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << InterpreterParser.T__0) | (1 << InterpreterParser.T__2) | (1 << InterpreterParser.T__5) | (1 << InterpreterParser.T__8) | (1 << InterpreterParser.T__11) | (1 << InterpreterParser.IDENTIFIER) | (1 << InterpreterParser.STRING))) != 0):
-                self.state = 9
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << InterpreterParser.T__0) | (1 << InterpreterParser.T__2) | (1 << InterpreterParser.T__7) | (1 << InterpreterParser.T__10) | (1 << InterpreterParser.T__13) | (1 << InterpreterParser.IDENTIFIER) | (1 << InterpreterParser.STRING))) != 0):
+                self.state = 11
                 self.command()
-                self.state = 14
+                self.state = 16
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 15
+            self.state = 17
             self.match(InterpreterParser.T__1)
         except RecognitionException as re:
             localctx.exception = re
@@ -162,9 +162,24 @@ class InterpreterParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return InterpreterParser.RULE_command
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class Execute_guardedContext(CommandContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.CommandContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def guard(self):
             return self.getTypedRuleContext(InterpreterParser.GuardContext,0)
-
 
         def command(self, i:int=None):
             if i is None:
@@ -173,30 +188,97 @@ class InterpreterParser ( Parser ):
                 return self.getTypedRuleContext(InterpreterParser.CommandContext,i)
 
 
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterExecute_guarded" ):
+                listener.enterExecute_guarded(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitExecute_guarded" ):
+                listener.exitExecute_guarded(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExecute_guarded" ):
+                return visitor.visitExecute_guarded(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class ExecuteContext(CommandContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.CommandContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def expression(self):
             return self.getTypedRuleContext(InterpreterParser.ExpressionContext,0)
 
 
-        def IDENTIFIER(self):
-            return self.getToken(InterpreterParser.IDENTIFIER, 0)
-
-        def getRuleIndex(self):
-            return InterpreterParser.RULE_command
-
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCommand" ):
-                listener.enterCommand(self)
+            if hasattr( listener, "enterExecute" ):
+                listener.enterExecute(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCommand" ):
-                listener.exitCommand(self)
+            if hasattr( listener, "exitExecute" ):
+                listener.exitExecute(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitCommand" ):
-                return visitor.visitCommand(self)
+            if hasattr( visitor, "visitExecute" ):
+                return visitor.visitExecute(self)
             else:
                 return visitor.visitChildren(self)
 
+
+    class ReturnContext(CommandContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.CommandContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self):
+            return self.getTypedRuleContext(InterpreterParser.ExpressionContext,0)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterReturn" ):
+                listener.enterReturn(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitReturn" ):
+                listener.exitReturn(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReturn" ):
+                return visitor.visitReturn(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class AssignContext(CommandContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.CommandContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def reference(self):
+            return self.getTypedRuleContext(InterpreterParser.ReferenceContext,0)
+
+        def expression(self):
+            return self.getTypedRuleContext(InterpreterParser.ExpressionContext,0)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterAssign" ):
+                listener.enterAssign(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitAssign" ):
+                listener.exitAssign(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssign" ):
+                return visitor.visitAssign(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -206,67 +288,65 @@ class InterpreterParser ( Parser ):
         self.enterRule(localctx, 2, self.RULE_command)
         self._la = 0 # Token type
         try:
-            self.state = 45
-            token = self._input.LA(1)
-            if token in [InterpreterParser.T__2]:
+            self.state = 42
+            self._errHandler.sync(self);
+            la_ = self._interp.adaptivePredict(self._input,2,self._ctx)
+            if la_ == 1:
+                localctx = InterpreterParser.Execute_guardedContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 17
-                self.match(InterpreterParser.T__2)
-                self.state = 18
-                self.guard()
                 self.state = 19
+                self.match(InterpreterParser.T__2)
+                self.state = 20
+                self.guard()
+                self.state = 21
                 self.match(InterpreterParser.T__3)
-                self.state = 23
+                self.state = 25
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << InterpreterParser.T__0) | (1 << InterpreterParser.T__2) | (1 << InterpreterParser.T__5) | (1 << InterpreterParser.T__8) | (1 << InterpreterParser.T__11) | (1 << InterpreterParser.IDENTIFIER) | (1 << InterpreterParser.STRING))) != 0):
-                    self.state = 20
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << InterpreterParser.T__0) | (1 << InterpreterParser.T__2) | (1 << InterpreterParser.T__7) | (1 << InterpreterParser.T__10) | (1 << InterpreterParser.T__13) | (1 << InterpreterParser.IDENTIFIER) | (1 << InterpreterParser.STRING))) != 0):
+                    self.state = 22
                     self.command()
-                    self.state = 25
+                    self.state = 27
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
 
-                self.state = 26
+                self.state = 28
                 self.match(InterpreterParser.T__4)
+                pass
 
-            elif token in [InterpreterParser.T__0, InterpreterParser.T__5, InterpreterParser.T__11, InterpreterParser.IDENTIFIER, InterpreterParser.STRING]:
+            elif la_ == 2:
+                localctx = InterpreterParser.AssignContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
-                self.state = 36
-                self._errHandler.sync(self);
-                la_ = self._interp.adaptivePredict(self._input,3,self._ctx)
-                if la_ == 1:
-                    self.state = 31
-                    self._errHandler.sync(self)
-                    _la = self._input.LA(1)
-                    while _la==InterpreterParser.T__5:
-                        self.state = 28
-                        self.match(InterpreterParser.T__5)
-                        self.state = 33
-                        self._errHandler.sync(self)
-                        _la = self._input.LA(1)
-
-                    self.state = 34
-                    self.match(InterpreterParser.IDENTIFIER)
-                    self.state = 35
-                    self.match(InterpreterParser.T__6)
-
-
-                self.state = 38
+                self.state = 30
+                self.reference()
+                self.state = 31
+                self.match(InterpreterParser.T__5)
+                self.state = 32
                 self.expression(0)
-                self.state = 39
-                self.match(InterpreterParser.T__7)
+                self.state = 33
+                self.match(InterpreterParser.T__6)
+                pass
 
-            elif token in [InterpreterParser.T__8]:
+            elif la_ == 3:
+                localctx = InterpreterParser.ExecuteContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
-                self.state = 41
-                self.match(InterpreterParser.T__8)
-                self.state = 42
+                self.state = 35
                 self.expression(0)
-                self.state = 43
-                self.match(InterpreterParser.T__7)
+                self.state = 36
+                self.match(InterpreterParser.T__6)
+                pass
 
-            else:
-                raise NoViableAltException(self)
+            elif la_ == 4:
+                localctx = InterpreterParser.ReturnContext(self, localctx)
+                self.enterOuterAlt(localctx, 4)
+                self.state = 38
+                self.match(InterpreterParser.T__7)
+                self.state = 39
+                self.expression(0)
+                self.state = 40
+                self.match(InterpreterParser.T__6)
+                pass
+
 
         except RecognitionException as re:
             localctx.exception = re
@@ -281,6 +361,7 @@ class InterpreterParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
+            self.op = None # Token
 
         def expression(self, i:int=None):
             if i is None:
@@ -320,22 +401,23 @@ class InterpreterParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 47
+            self.state = 44
             self.expression(0)
-            self.state = 48
+            self.state = 45
+            localctx.op = self._input.LT(1)
             _la = self._input.LA(1)
-            if not(_la==InterpreterParser.T__6 or _la==InterpreterParser.T__9):
-                self._errHandler.recoverInline(self)
+            if not(_la==InterpreterParser.T__5 or _la==InterpreterParser.T__8):
+                localctx.op = self._errHandler.recoverInline(self)
             else:
                 self.consume()
-            self.state = 49
+            self.state = 46
             self.expression(0)
-            self.state = 52
+            self.state = 49
             _la = self._input.LA(1)
-            if _la==InterpreterParser.T__10:
-                self.state = 50
-                self.match(InterpreterParser.T__10)
-                self.state = 51
+            if _la==InterpreterParser.T__9:
+                self.state = 47
+                self.match(InterpreterParser.T__9)
+                self.state = 48
                 self.guard()
 
 
@@ -415,30 +497,6 @@ class InterpreterParser ( Parser ):
                 return visitor.visitChildren(self)
 
 
-    class IdentifierContext(ExpressionContext):
-
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.ExpressionContext
-            super().__init__(parser)
-            self.copyFrom(ctx)
-
-        def IDENTIFIER(self):
-            return self.getToken(InterpreterParser.IDENTIFIER, 0)
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterIdentifier" ):
-                listener.enterIdentifier(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitIdentifier" ):
-                listener.exitIdentifier(self)
-
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitIdentifier" ):
-                return visitor.visitIdentifier(self)
-            else:
-                return visitor.visitChildren(self)
-
-
     class StringContext(ExpressionContext):
 
         def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.ExpressionContext
@@ -463,7 +521,32 @@ class InterpreterParser ( Parser ):
                 return visitor.visitChildren(self)
 
 
-    class SubobjContext(ExpressionContext):
+    class ReferContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def reference(self):
+            return self.getTypedRuleContext(InterpreterParser.ReferenceContext,0)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterRefer" ):
+                listener.enterRefer(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitRefer" ):
+                listener.exitRefer(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRefer" ):
+                return visitor.visitRefer(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class Refer_propContext(ExpressionContext):
 
         def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.ExpressionContext
             super().__init__(parser)
@@ -479,21 +562,21 @@ class InterpreterParser ( Parser ):
                 return self.getToken(InterpreterParser.IDENTIFIER, i)
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterSubobj" ):
-                listener.enterSubobj(self)
+            if hasattr( listener, "enterRefer_prop" ):
+                listener.enterRefer_prop(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitSubobj" ):
-                listener.exitSubobj(self)
+            if hasattr( listener, "exitRefer_prop" ):
+                listener.exitRefer_prop(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitSubobj" ):
-                return visitor.visitSubobj(self)
+            if hasattr( visitor, "visitRefer_prop" ):
+                return visitor.visitRefer_prop(self)
             else:
                 return visitor.visitChildren(self)
 
 
-    class ParenthesisContext(ExpressionContext):
+    class Par_enclosingContext(ExpressionContext):
 
         def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.ExpressionContext
             super().__init__(parser)
@@ -504,16 +587,16 @@ class InterpreterParser ( Parser ):
 
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterParenthesis" ):
-                listener.enterParenthesis(self)
+            if hasattr( listener, "enterPar_enclosing" ):
+                listener.enterPar_enclosing(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitParenthesis" ):
-                listener.exitParenthesis(self)
+            if hasattr( listener, "exitPar_enclosing" ):
+                listener.exitPar_enclosing(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitParenthesis" ):
-                return visitor.visitParenthesis(self)
+            if hasattr( visitor, "visitPar_enclosing" ):
+                return visitor.visitPar_enclosing(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -526,111 +609,100 @@ class InterpreterParser ( Parser ):
         _prevctx = localctx
         _startState = 6
         self.enterRecursionRule(localctx, 6, self.RULE_expression, _p)
-        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 68
+            self.state = 59
             token = self._input.LA(1)
             if token in [InterpreterParser.STRING]:
                 localctx = InterpreterParser.StringContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
 
-                self.state = 55
+                self.state = 52
                 self.match(InterpreterParser.STRING)
 
             elif token in [InterpreterParser.T__0]:
                 localctx = InterpreterParser.BlkContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 56
+                self.state = 53
                 self.block()
 
-            elif token in [InterpreterParser.T__5, InterpreterParser.IDENTIFIER]:
-                localctx = InterpreterParser.IdentifierContext(self, localctx)
+            elif token in [InterpreterParser.T__13, InterpreterParser.IDENTIFIER]:
+                localctx = InterpreterParser.ReferContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 60
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
-                while _la==InterpreterParser.T__5:
-                    self.state = 57
-                    self.match(InterpreterParser.T__5)
-                    self.state = 62
-                    self._errHandler.sync(self)
-                    _la = self._input.LA(1)
+                self.state = 54
+                self.reference()
 
-                self.state = 63
-                self.match(InterpreterParser.IDENTIFIER)
-
-            elif token in [InterpreterParser.T__11]:
-                localctx = InterpreterParser.ParenthesisContext(self, localctx)
+            elif token in [InterpreterParser.T__10]:
+                localctx = InterpreterParser.Par_enclosingContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 64
-                self.match(InterpreterParser.T__11)
-                self.state = 65
+                self.state = 55
+                self.match(InterpreterParser.T__10)
+                self.state = 56
                 self.expression(0)
-                self.state = 66
-                self.match(InterpreterParser.T__12)
+                self.state = 57
+                self.match(InterpreterParser.T__11)
 
             else:
                 raise NoViableAltException(self)
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 82
+            self.state = 73
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,10,self._ctx)
+            _alt = self._interp.adaptivePredict(self._input,7,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 80
+                    self.state = 71
                     self._errHandler.sync(self);
-                    la_ = self._interp.adaptivePredict(self._input,9,self._ctx)
+                    la_ = self._interp.adaptivePredict(self._input,6,self._ctx)
                     if la_ == 1:
                         localctx = InterpreterParser.AddContext(self, InterpreterParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 70
+                        self.state = 61
                         if not self.precpred(self._ctx, 1):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 1)")
-                        self.state = 71
+                        self.state = 62
                         self.match(InterpreterParser.ADD)
-                        self.state = 72
+                        self.state = 63
                         self.expression(2)
                         pass
 
                     elif la_ == 2:
-                        localctx = InterpreterParser.SubobjContext(self, InterpreterParser.ExpressionContext(self, _parentctx, _parentState))
+                        localctx = InterpreterParser.Refer_propContext(self, InterpreterParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 73
+                        self.state = 64
                         if not self.precpred(self._ctx, 2):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
-                        self.state = 76 
+                        self.state = 67 
                         self._errHandler.sync(self)
                         _alt = 1
                         while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                             if _alt == 1:
-                                self.state = 74
-                                self.match(InterpreterParser.T__13)
-                                self.state = 75
+                                self.state = 65
+                                self.match(InterpreterParser.T__12)
+                                self.state = 66
                                 self.match(InterpreterParser.IDENTIFIER)
 
                             else:
                                 raise NoViableAltException(self)
-                            self.state = 78 
+                            self.state = 69 
                             self._errHandler.sync(self)
-                            _alt = self._interp.adaptivePredict(self._input,8,self._ctx)
+                            _alt = self._interp.adaptivePredict(self._input,5,self._ctx)
 
                         pass
 
              
-                self.state = 84
+                self.state = 75
                 self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,10,self._ctx)
+                _alt = self._interp.adaptivePredict(self._input,7,self._ctx)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -638,6 +710,62 @@ class InterpreterParser ( Parser ):
             self._errHandler.recover(self, re)
         finally:
             self.unrollRecursionContexts(_parentctx)
+        return localctx
+
+    class ReferenceContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def IDENTIFIER(self):
+            return self.getToken(InterpreterParser.IDENTIFIER, 0)
+
+        def getRuleIndex(self):
+            return InterpreterParser.RULE_reference
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterReference" ):
+                listener.enterReference(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitReference" ):
+                listener.exitReference(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReference" ):
+                return visitor.visitReference(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def reference(self):
+
+        localctx = InterpreterParser.ReferenceContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 8, self.RULE_reference)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 79
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while _la==InterpreterParser.T__13:
+                self.state = 76
+                self.match(InterpreterParser.T__13)
+                self.state = 81
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
+            self.state = 82
+            self.match(InterpreterParser.IDENTIFIER)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
         return localctx
 
 

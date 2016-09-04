@@ -2,20 +2,23 @@ grammar Interpreter;
 
 block : '{' command* '}' ;
 
-command : '[' guard ':' (command)* ']'
-        | (('*')* IDENTIFIER '=')? expression ';'
-        | '^' expression ';'
+command : '[' guard ':' (command)* ']'              # execute_guarded
+        | reference '=' expression ';'              # assign
+        | expression ';'                            # execute
+        | '^' expression ';'                        # return
         ;
 
-guard : expression ( '=' | '#' ) expression (',' guard )? ;
+guard : expression op=('='|'#') expression (',' guard )? ;
 
 expression  : STRING                            # string
             | block                             # blk
-            | ('*')* IDENTIFIER                 # identifier
-            | '(' expression ')'                # parenthesis
-            | expression ('.' IDENTIFIER)+      # subobj
+            | reference                         # refer
+            | '(' expression ')'                # par_enclosing
+            | expression ('.' IDENTIFIER)+      # refer_prop
             | expression '+' expression         # add
             ;
+
+reference: ('*')* IDENTIFIER;
 
 IDENTIFIER : [a-z]+ ;
 

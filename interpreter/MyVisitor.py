@@ -2,52 +2,55 @@ from InterpreterVisitor import InterpreterVisitor
 from InterpreterParser import InterpreterParser
 
 import subprocess
+import logging
+
+def remove_quotes(str):
+    return str[1:-1]
+
 
 class MyVisitor(InterpreterVisitor):
     def __init__(self):
         self.memory = {}
 
-    def visitSubobj(self, ctx:InterpreterParser.SubobjContext):
-        expr = ctx.expression().expression().getText()[1:-1]
+    def visitRefer_prop(self, ctx:InterpreterParser.Refer_propContext):
+        expr = self.visit(ctx.expression())
         subObj = ctx.IDENTIFIER().pop().getText()
-        print(expr)
-        print(type(expr))
+        logging.debug("refer property: " + expr)
+        # print(type(expr))
         if subObj == 'syscall':
-            subprocess.call(expr, shell=True)
+            return subprocess.call(expr, shell=True)
 
-    def visitAssign(self, ctx):
-        name = ctx.ID().getText()
-        value = self.visit(ctx.expr())
-        self.memory[name] = value
+    def visitPar_enclosing(self, ctx:InterpreterParser.Par_enclosingContext):
+        value = self.visit(ctx.expression())
+        logging.debug("par enclosing: " + value)
         return value
 
-    def visitPrintExpr(self, ctx):
-        value = self.visit(ctx.expr())
-        print(value)
-        return 0
+    def visitAssign(self, ctx:InterpreterParser.AssignContext):
+        varName = ctx.reference().IDENTIFIER().getText()
+        value = self.visit(ctx.expression())
+        logging.debug("assign: " + varName + " -> " + value)
+        self.memory[varName] = value
+        return value
 
-    def visitInt(self, ctx):
-        return ctx.INT().getText()
+    def visitString(self, ctx:InterpreterParser.StringContext):
+        value = remove_quotes(ctx.STRING().getText())
+        logging.debug("string: " + value)
+        return value
 
-    def visitId(self, ctx):
-        name = ctx.ID().getText()
-        if name in self.memory:
-            return self.memory[name]
-        return 0
+    def visitRefer(self, ctx:InterpreterParser.ReferContext):
+        refer = ctx.reference().IDENTIFIER().getText()
+        value = self.memory[refer]
+        logging.debug("refer: " + refer + " -> " + value)
+        return value
 
-    def visitMulDiv(self, ctx):
-        left = int(self.visit(ctx.expr(0)))
-        right = int(self.visit(ctx.expr(1)))
-        if ctx.op.type == InterpreterParser.MUL:
-            return left * right
-        return left / right
-
-    def visitAddSub(self, ctx):
-        left = int(self.visit(ctx.expr(0)))
-        right = int(self.visit(ctx.expr(1)))
-        if ctx.op.type == InterpreterParser.ADD:
+    def visitAdd(self, ctx:InterpreterParser.AddContext):
+        left = self.visit(ctx.expression(0))
+        right = self.visit(ctx.expression(1))
+        if left is None:
+            logging.debug("left: NONE!!")
+            logging.debug("right: " + str(right))
+            return right
+        else:
+            logging.debug("left: " + left)
+            logging.debug("right: " + right)
             return left + right
-        return left - right
-
-    def visitParens(self, ctx):
-        return self.visit(ctx.expr())

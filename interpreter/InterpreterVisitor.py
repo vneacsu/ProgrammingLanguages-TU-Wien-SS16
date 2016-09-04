@@ -14,8 +14,23 @@ class InterpreterVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by InterpreterParser#command.
-    def visitCommand(self, ctx:InterpreterParser.CommandContext):
+    # Visit a parse tree produced by InterpreterParser#execute_guarded.
+    def visitExecute_guarded(self, ctx:InterpreterParser.Execute_guardedContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by InterpreterParser#assign.
+    def visitAssign(self, ctx:InterpreterParser.AssignContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by InterpreterParser#execute.
+    def visitExecute(self, ctx:InterpreterParser.ExecuteContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by InterpreterParser#return.
+    def visitReturn(self, ctx:InterpreterParser.ReturnContext):
         return self.visitChildren(ctx)
 
 
@@ -34,23 +49,28 @@ class InterpreterVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by InterpreterParser#identifier.
-    def visitIdentifier(self, ctx:InterpreterParser.IdentifierContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by InterpreterParser#string.
     def visitString(self, ctx:InterpreterParser.StringContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by InterpreterParser#subobj.
-    def visitSubobj(self, ctx:InterpreterParser.SubobjContext):
+    # Visit a parse tree produced by InterpreterParser#refer.
+    def visitRefer(self, ctx:InterpreterParser.ReferContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by InterpreterParser#parenthesis.
-    def visitParenthesis(self, ctx:InterpreterParser.ParenthesisContext):
+    # Visit a parse tree produced by InterpreterParser#refer_prop.
+    def visitRefer_prop(self, ctx:InterpreterParser.Refer_propContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by InterpreterParser#par_enclosing.
+    def visitPar_enclosing(self, ctx:InterpreterParser.Par_enclosingContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by InterpreterParser#reference.
+    def visitReference(self, ctx:InterpreterParser.ReferenceContext):
         return self.visitChildren(ctx)
 
 
