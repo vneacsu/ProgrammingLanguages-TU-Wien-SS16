@@ -16,10 +16,12 @@ class MyVisitor(InterpreterVisitor):
     def visitRefer_prop(self, ctx:InterpreterParser.Refer_propContext):
         expr = self.visit(ctx.expression())
         subObj = ctx.IDENTIFIER().pop().getText()
-        logging.debug("refer property: " + expr)
+        logging.debug("refer: " + expr)
         # print(type(expr))
         if subObj == 'syscall':
-            return subprocess.call(expr, shell=True)
+            result = str(subprocess.call(expr, shell=True))
+            logging.debug("refer: syscall: " + result)
+            return result
 
     def visitPar_enclosing(self, ctx:InterpreterParser.Par_enclosingContext):
         value = self.visit(ctx.expression())

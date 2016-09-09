@@ -20,7 +20,7 @@ expression  : STRING                            # string
 
 reference: ('*')* IDENTIFIER;
 
-IDENTIFIER : [a-z]+ ;
+IDENTIFIER : [a-zA-Z]+ ;
 
 STRING : '"' (~'"')* '"';
 

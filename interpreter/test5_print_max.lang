@@ -1,0 +1,19 @@
+{
+    a = "3";
+    b = "15";
+    c = "12";
+
+    max = a;
+
+    aSmallerB = {} + ("test " + a + " -le " + b).syscall;
+    bSmallerC = {} + ("test " + b + " -le " + c).syscall;
+
+    {} + ("echo " + aSmallerB + " should be 0").syscall;
+    {} + ("echo " + bSmallerC + " should be 1").syscall;
+
+    [ aSmallerB = "0" : max = b;]
+    [ bSmallerC = "0" : max = c;]
+
+    {} + ("echo " + "max is " + max).syscall;
+
+}
