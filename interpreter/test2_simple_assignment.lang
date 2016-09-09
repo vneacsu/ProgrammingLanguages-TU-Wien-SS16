@@ -1,5 +1,5 @@
 {
     x = "Joe";
     msg = "Hello " + x;
-    {} + ("echo Hello " + x).syscall;
+    {} + ("echo " + msg).syscall;
 }

@@ -1,0 +1,8 @@
+{
+    msg = {
+        joe = "Joe";
+        ^ "Hello " + joe;
+    };
+
+    {} + ("echo " + msg).syscall;
+}

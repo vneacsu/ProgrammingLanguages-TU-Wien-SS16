@@ -1,8 +1,9 @@
-from InterpreterVisitor import InterpreterVisitor
-from InterpreterParser import InterpreterParser
-
-import subprocess
 import logging
+import subprocess
+
+from InterpreterParser import InterpreterParser
+from InterpreterVisitor import InterpreterVisitor
+
 
 def remove_quotes(str):
     return str[1:-1]
@@ -51,6 +52,18 @@ class MyVisitor(InterpreterVisitor):
             logging.debug("right: " + str(right))
             return right
         else:
-            logging.debug("left: " + left)
-            logging.debug("right: " + right)
+            logging.debug("left: " + str(left))
+            logging.debug("right: " + str(right))
             return left + right
+
+    def visitBlock(self, ctx:InterpreterParser.BlockContext):
+        logging.debug("block")
+        for child in ctx.children:
+            value = self.visit(child)
+            if type(child) == InterpreterParser.ReturnContext:
+                return value
+
+    def visitReturn(self, ctx:InterpreterParser.ReturnContext):
+        value = self.visit(ctx.expression())
+        logging.debug("return: " + str(value))
+        return value
