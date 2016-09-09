@@ -1,0 +1,16 @@
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'antlr'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    antlr "org.antlr:antlr4:4.5"
+}
+
+wrapper {
+    gradleVersion = "3.0"
+}
