@@ -1,0 +1,13 @@
+{
+    msg = {
+        joe = "Joe";
+        ^ "Hello " + joe;
+    };
+
+
+    cond = "condValue";
+
+    [ cond = "someOtherValue" : {} + ("echo Do NOT print this!!").syscall; ]
+    [ cond = "condValue" : {} + ("echo " + msg).syscall; ]
+
+}

@@ -48,12 +48,12 @@ class MyVisitor(InterpreterVisitor):
         left = self.visit(ctx.expression(0))
         right = self.visit(ctx.expression(1))
         if left is None:
-            logging.debug("left: NONE!!")
-            logging.debug("right: " + str(right))
+            logging.debug("add: left: NONE!!")
+            logging.debug("add: right: " + str(right))
             return right
         else:
-            logging.debug("left: " + str(left))
-            logging.debug("right: " + str(right))
+            logging.debug("add: left: " + str(left))
+            logging.debug("add: right: " + str(right))
             return left + right
 
     def visitBlock(self, ctx:InterpreterParser.BlockContext):
@@ -67,3 +67,23 @@ class MyVisitor(InterpreterVisitor):
         value = self.visit(ctx.expression())
         logging.debug("return: " + str(value))
         return value
+
+    def visitExecute_guarded(self, ctx:InterpreterParser.Execute_guardedContext):
+        guardCond = self.visit(ctx.guard())
+        if guardCond:
+            for command in ctx.command():
+                self.visit(command)
+
+    def visitGuard(self, ctx:InterpreterParser.GuardContext):
+        expr1 = self.visit(ctx.expression(0))
+        expr2 = self.visit(ctx.expression(1))
+        logging.debug("guard: expr1: " + str(expr1))
+        logging.debug("guard: expr2: " + str(expr2))
+        logging.debug("guard: op: " + str(ctx.op.text))
+
+        if ctx.op.text == "=":
+            logging.debug("guard: result: " + str(expr1 == expr2))
+            return expr1 == expr2
+        else:
+            logging.debug("guard: result: " + str(expr1 != expr2))
+            return expr1 != expr2
