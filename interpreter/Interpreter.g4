@@ -11,7 +11,7 @@ command : '[' guard ':' (command)* ']'              # execute_guarded
 guard : expression op=('='|'#') expression (',' guard )? ;
 
 expression  : STRING                            # string
-            | block                             # blk
+            | block                             # function_block
             | reference                         # refer
             | '(' expression ')'                # par_enclosing
             | expression ('.' IDENTIFIER)+      # refer_prop

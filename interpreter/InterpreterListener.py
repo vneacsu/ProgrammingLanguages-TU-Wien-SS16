@@ -62,15 +62,6 @@ class InterpreterListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by InterpreterParser#blk.
-    def enterBlk(self, ctx:InterpreterParser.BlkContext):
-        pass
-
-    # Exit a parse tree produced by InterpreterParser#blk.
-    def exitBlk(self, ctx:InterpreterParser.BlkContext):
-        pass
-
-
     # Enter a parse tree produced by InterpreterParser#add.
     def enterAdd(self, ctx:InterpreterParser.AddContext):
         pass
@@ -86,6 +77,15 @@ class InterpreterListener(ParseTreeListener):
 
     # Exit a parse tree produced by InterpreterParser#string.
     def exitString(self, ctx:InterpreterParser.StringContext):
+        pass
+
+
+    # Enter a parse tree produced by InterpreterParser#function_block.
+    def enterFunction_block(self, ctx:InterpreterParser.Function_blockContext):
+        pass
+
+    # Exit a parse tree produced by InterpreterParser#function_block.
+    def exitFunction_block(self, ctx:InterpreterParser.Function_blockContext):
         pass
 
 

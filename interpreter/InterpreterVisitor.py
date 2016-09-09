@@ -39,11 +39,6 @@ class InterpreterVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by InterpreterParser#blk.
-    def visitBlk(self, ctx:InterpreterParser.BlkContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by InterpreterParser#add.
     def visitAdd(self, ctx:InterpreterParser.AddContext):
         return self.visitChildren(ctx)
@@ -51,6 +46,11 @@ class InterpreterVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by InterpreterParser#string.
     def visitString(self, ctx:InterpreterParser.StringContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by InterpreterParser#function_block.
+    def visitFunction_block(self, ctx:InterpreterParser.Function_blockContext):
         return self.visitChildren(ctx)
 
 

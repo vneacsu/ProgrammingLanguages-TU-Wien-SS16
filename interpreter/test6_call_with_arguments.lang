@@ -1,0 +1,20 @@
+{
+
+    max = {
+        currMax = a;
+
+        aSmallerB = {} + ("test " + a + " -le " + b).syscall;
+        bSmallerC = {} + ("test " + b + " -le " + c).syscall;
+
+        [ aSmallerB = "0" : currMax = b;]
+        [ bSmallerC = "0" : currMax = c;]
+
+        ^ currMax;
+    }
+
+    result = { a = "3"; b = "15"; c = "12"; ^ ""; } + max;
+    {} + ("echo " + result + " should be 15").syscall;
+
+    result = { a = "3"; b = "10"; c = "12"; ^ ""; } + max;
+        {} + ("echo " + result + " should be 12").syscall;
+}

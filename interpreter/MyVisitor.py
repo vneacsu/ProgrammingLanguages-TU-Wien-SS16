@@ -17,7 +17,6 @@ class MyVisitor(InterpreterVisitor):
         expr = self.visit(ctx.expression())
         subObj = ctx.IDENTIFIER().pop().getText()
         logging.debug("refer: " + expr)
-        # print(type(expr))
         if subObj == 'syscall':
             result = str(subprocess.call(expr, shell=True))
             logging.debug("refer: syscall: " + result)
@@ -30,10 +29,13 @@ class MyVisitor(InterpreterVisitor):
 
     def visitAssign(self, ctx:InterpreterParser.AssignContext):
         varName = ctx.reference().IDENTIFIER().getText()
-        value = self.visit(ctx.expression())
-        logging.debug("assign: " + varName + " -> " + value)
-        self.memory[varName] = value
-        return value
+        if type(ctx.expression()) is InterpreterParser.Function_blockContext:
+            self.memory[varName] = ctx.expression()
+        else:
+            value = self.visit(ctx.expression())
+            logging.debug("assign: " + varName + " -> " + value)
+            self.memory[varName] = value
+            return value
 
     def visitString(self, ctx:InterpreterParser.StringContext):
         value = remove_quotes(ctx.STRING().getText())
@@ -41,10 +43,15 @@ class MyVisitor(InterpreterVisitor):
         return value
 
     def visitRefer(self, ctx:InterpreterParser.ReferContext):
-        refer = ctx.reference().IDENTIFIER().getText()
-        value = self.memory[refer]
-        logging.debug("refer: " + refer + " -> " + value)
-        return value
+        referName = ctx.reference().IDENTIFIER().getText()
+        value = self.memory[referName]
+        if type(value) is InterpreterParser.Function_blockContext:
+            function_block_value = self.visit(value)
+            logging.debug("refer: " + referName + " -> " + function_block_value)
+            return function_block_value
+        else:
+            logging.debug("refer: " + referName + " -> " + value)
+            return value
 
     def visitAdd(self, ctx:InterpreterParser.AddContext):
         left = self.visit(ctx.expression(0))
@@ -58,12 +65,16 @@ class MyVisitor(InterpreterVisitor):
             logging.debug("add: right: " + str(right))
             return left + right
 
-    def visitBlock(self, ctx:InterpreterParser.BlockContext):
-        logging.debug("block")
-        for child in ctx.children:
+    def visitFunction_block(self, ctx:InterpreterParser.Function_blockContext):
+        logging.debug("function_block")
+        for child in ctx.block().children:
             value = self.visit(child)
             if type(child) == InterpreterParser.ReturnContext:
+                logging.debug("function_block: return: " + str(value))
                 return value
+
+        if len(ctx.block().children) > 2:   # not only '{' and '}' as children
+            raise ValueError('No return value')
 
     def visitReturn(self, ctx:InterpreterParser.ReturnContext):
         value = self.visit(ctx.expression())

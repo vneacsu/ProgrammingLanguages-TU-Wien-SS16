@@ -1,7 +1,9 @@
 # Generated from Interpreter.g4 by ANTLR 4.5.3
 # encoding: utf-8
-from antlr4 import *
 from io import StringIO
+
+from antlr4 import *
+
 
 def serializedATN():
     with StringIO() as buf:
@@ -444,31 +446,6 @@ class InterpreterParser ( Parser ):
             super().copyFrom(ctx)
 
 
-    class BlkContext(ExpressionContext):
-
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.ExpressionContext
-            super().__init__(parser)
-            self.copyFrom(ctx)
-
-        def block(self):
-            return self.getTypedRuleContext(InterpreterParser.BlockContext,0)
-
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterBlk" ):
-                listener.enterBlk(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitBlk" ):
-                listener.exitBlk(self)
-
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitBlk" ):
-                return visitor.visitBlk(self)
-            else:
-                return visitor.visitChildren(self)
-
-
     class AddContext(ExpressionContext):
 
         def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.ExpressionContext
@@ -517,6 +494,31 @@ class InterpreterParser ( Parser ):
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitString" ):
                 return visitor.visitString(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class Function_blockContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a InterpreterParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def block(self):
+            return self.getTypedRuleContext(InterpreterParser.BlockContext,0)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterFunction_block" ):
+                listener.enterFunction_block(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitFunction_block" ):
+                listener.exitFunction_block(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunction_block" ):
+                return visitor.visitFunction_block(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -622,7 +624,7 @@ class InterpreterParser ( Parser ):
                 self.match(InterpreterParser.STRING)
 
             elif token in [InterpreterParser.T__0]:
-                localctx = InterpreterParser.BlkContext(self, localctx)
+                localctx = InterpreterParser.Function_blockContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
                 self.state = 53

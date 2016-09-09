@@ -1,8 +1,10 @@
 {
-    msg = {
+    msgFun = {
         joe = "Joe";
         ^ "Hello " + joe;
     };
+
+    msg = {} + msgFun;
 
     {} + ("echo " + msg).syscall;
 }
