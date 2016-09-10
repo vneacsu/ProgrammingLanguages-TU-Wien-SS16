@@ -10,7 +10,7 @@
         [ bSmallerC = "0" : currMax = c;]
 
         ^ currMax;
-    }
+    };
 
     result = { a = "3"; b = "15"; c = "12"; ^ ""; } + max;
     {} + ("echo " + result + " should be 15").syscall;
