@@ -1,7 +1,10 @@
 version '1.0-SNAPSHOT'
 
+apply plugin: 'application'
 apply plugin: 'java'
 apply plugin: 'antlr'
+
+mainClassName = "at.tuwien.progspr16.calculator.interpreter.Main"
 
 repositories {
     mavenCentral()
@@ -9,6 +12,10 @@ repositories {
 
 dependencies {
     antlr "org.antlr:antlr4:4.5"
+}
+
+generateGrammarSource {
+    arguments += ["-visitor"]
 }
 
 wrapper {
