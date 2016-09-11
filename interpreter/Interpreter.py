@@ -14,7 +14,7 @@ if __name__ == '__main__':
     else:
         input_stream = InputStream(sys.stdin.readline())
 
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
 
     lexer = InterpreterLexer(input_stream)
     token_stream = CommonTokenStream(lexer)

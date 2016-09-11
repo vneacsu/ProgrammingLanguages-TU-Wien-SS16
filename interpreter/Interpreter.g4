@@ -18,9 +18,10 @@ expression  : STRING                            # string
             | expression '+' expression         # add
             ;
 
-reference: ('*')* IDENTIFIER;
+reference: STAR? IDENTIFIER;
 
 IDENTIFIER : [a-zA-Z]+ ;
+STAR : ('*')+ ;
 
 STRING : '"' (~'"')* '"';
 

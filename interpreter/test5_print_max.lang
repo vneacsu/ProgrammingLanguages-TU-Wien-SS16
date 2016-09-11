@@ -14,6 +14,6 @@
     [ aSmallerB = "0" : max = b;]
     [ bSmallerC = "0" : max = c;]
 
-    {} + ("echo " + "max is " + max).syscall;
+    {} + ("echo " + "15 should be " + max).syscall;
 
 }

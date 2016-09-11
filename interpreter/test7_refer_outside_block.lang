@@ -1,0 +1,14 @@
+{
+    a = "1";
+
+    doSomething = {
+        b = "2";
+
+        {} + ("echo 1 should be " + *a).syscall;
+        {} + ("echo 2 should be " + b).syscall;
+        {} + ("echo 3 should be " + c).syscall;
+        ^ "";
+    };
+
+    {c = "3"; } + doSomething;
+}

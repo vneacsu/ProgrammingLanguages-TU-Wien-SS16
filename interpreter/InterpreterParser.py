@@ -8,34 +8,33 @@ from antlr4 import *
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\25")
-        buf.write("W\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\7\2")
+        buf.write("T\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\7\2")
         buf.write("\17\n\2\f\2\16\2\22\13\2\3\2\3\2\3\3\3\3\3\3\3\3\7\3\32")
         buf.write("\n\3\f\3\16\3\35\13\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3")
         buf.write("\3\3\3\3\3\3\3\3\3\3\3\3\5\3-\n\3\3\4\3\4\3\4\3\4\3\4")
         buf.write("\5\4\64\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5>\n\5\3")
         buf.write("\5\3\5\3\5\3\5\3\5\3\5\6\5F\n\5\r\5\16\5G\7\5J\n\5\f\5")
-        buf.write("\16\5M\13\5\3\6\7\6P\n\6\f\6\16\6S\13\6\3\6\3\6\3\6\2")
-        buf.write("\3\b\7\2\4\6\b\n\2\3\4\2\b\b\13\13^\2\f\3\2\2\2\4,\3\2")
-        buf.write("\2\2\6.\3\2\2\2\b=\3\2\2\2\nQ\3\2\2\2\f\20\7\3\2\2\r\17")
-        buf.write("\5\4\3\2\16\r\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2\20\21")
-        buf.write("\3\2\2\2\21\23\3\2\2\2\22\20\3\2\2\2\23\24\7\4\2\2\24")
-        buf.write("\3\3\2\2\2\25\26\7\5\2\2\26\27\5\6\4\2\27\33\7\6\2\2\30")
-        buf.write("\32\5\4\3\2\31\30\3\2\2\2\32\35\3\2\2\2\33\31\3\2\2\2")
-        buf.write("\33\34\3\2\2\2\34\36\3\2\2\2\35\33\3\2\2\2\36\37\7\7\2")
-        buf.write("\2\37-\3\2\2\2 !\5\n\6\2!\"\7\b\2\2\"#\5\b\5\2#$\7\t\2")
-        buf.write("\2$-\3\2\2\2%&\5\b\5\2&\'\7\t\2\2\'-\3\2\2\2()\7\n\2\2")
-        buf.write(")*\5\b\5\2*+\7\t\2\2+-\3\2\2\2,\25\3\2\2\2, \3\2\2\2,")
-        buf.write("%\3\2\2\2,(\3\2\2\2-\5\3\2\2\2./\5\b\5\2/\60\t\2\2\2\60")
-        buf.write("\63\5\b\5\2\61\62\7\f\2\2\62\64\5\6\4\2\63\61\3\2\2\2")
-        buf.write("\63\64\3\2\2\2\64\7\3\2\2\2\65\66\b\5\1\2\66>\7\22\2\2")
-        buf.write("\67>\5\2\2\28>\5\n\6\29:\7\r\2\2:;\5\b\5\2;<\7\16\2\2")
-        buf.write("<>\3\2\2\2=\65\3\2\2\2=\67\3\2\2\2=8\3\2\2\2=9\3\2\2\2")
-        buf.write(">K\3\2\2\2?@\f\3\2\2@A\7\23\2\2AJ\5\b\5\4BE\f\4\2\2CD")
-        buf.write("\7\17\2\2DF\7\21\2\2EC\3\2\2\2FG\3\2\2\2GE\3\2\2\2GH\3")
-        buf.write("\2\2\2HJ\3\2\2\2I?\3\2\2\2IB\3\2\2\2JM\3\2\2\2KI\3\2\2")
-        buf.write("\2KL\3\2\2\2L\t\3\2\2\2MK\3\2\2\2NP\7\20\2\2ON\3\2\2\2")
-        buf.write("PS\3\2\2\2QO\3\2\2\2QR\3\2\2\2RT\3\2\2\2SQ\3\2\2\2TU\7")
-        buf.write("\21\2\2U\13\3\2\2\2\13\20\33,\63=GIKQ")
+        buf.write("\16\5M\13\5\3\6\5\6P\n\6\3\6\3\6\3\6\2\3\b\7\2\4\6\b\n")
+        buf.write("\2\3\4\2\b\b\13\13[\2\f\3\2\2\2\4,\3\2\2\2\6.\3\2\2\2")
+        buf.write("\b=\3\2\2\2\nO\3\2\2\2\f\20\7\3\2\2\r\17\5\4\3\2\16\r")
+        buf.write("\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2\20\21\3\2\2\2\21")
+        buf.write("\23\3\2\2\2\22\20\3\2\2\2\23\24\7\4\2\2\24\3\3\2\2\2\25")
+        buf.write("\26\7\5\2\2\26\27\5\6\4\2\27\33\7\6\2\2\30\32\5\4\3\2")
+        buf.write("\31\30\3\2\2\2\32\35\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2")
+        buf.write("\2\34\36\3\2\2\2\35\33\3\2\2\2\36\37\7\7\2\2\37-\3\2\2")
+        buf.write("\2 !\5\n\6\2!\"\7\b\2\2\"#\5\b\5\2#$\7\t\2\2$-\3\2\2\2")
+        buf.write("%&\5\b\5\2&\'\7\t\2\2\'-\3\2\2\2()\7\n\2\2)*\5\b\5\2*")
+        buf.write("+\7\t\2\2+-\3\2\2\2,\25\3\2\2\2, \3\2\2\2,%\3\2\2\2,(")
+        buf.write("\3\2\2\2-\5\3\2\2\2./\5\b\5\2/\60\t\2\2\2\60\63\5\b\5")
+        buf.write("\2\61\62\7\f\2\2\62\64\5\6\4\2\63\61\3\2\2\2\63\64\3\2")
+        buf.write("\2\2\64\7\3\2\2\2\65\66\b\5\1\2\66>\7\22\2\2\67>\5\2\2")
+        buf.write("\28>\5\n\6\29:\7\r\2\2:;\5\b\5\2;<\7\16\2\2<>\3\2\2\2")
+        buf.write("=\65\3\2\2\2=\67\3\2\2\2=8\3\2\2\2=9\3\2\2\2>K\3\2\2\2")
+        buf.write("?@\f\3\2\2@A\7\23\2\2AJ\5\b\5\4BE\f\4\2\2CD\7\17\2\2D")
+        buf.write("F\7\20\2\2EC\3\2\2\2FG\3\2\2\2GE\3\2\2\2GH\3\2\2\2HJ\3")
+        buf.write("\2\2\2I?\3\2\2\2IB\3\2\2\2JM\3\2\2\2KI\3\2\2\2KL\3\2\2")
+        buf.write("\2L\t\3\2\2\2MK\3\2\2\2NP\7\21\2\2ON\3\2\2\2OP\3\2\2\2")
+        buf.write("PQ\3\2\2\2QR\7\20\2\2R\13\3\2\2\2\13\20\33,\63=GIKO")
         return buf.getvalue()
 
 
@@ -50,14 +49,14 @@ class InterpreterParser ( Parser ):
     sharedContextCache = PredictionContextCache()
 
     literalNames = [ "<INVALID>", "'{'", "'}'", "'['", "':'", "']'", "'='", 
-                     "';'", "'^'", "'#'", "','", "'('", "')'", "'.'", "'*'", 
+                     "';'", "'^'", "'#'", "','", "'('", "')'", "'.'", "<INVALID>", 
                      "<INVALID>", "<INVALID>", "'+'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "IDENTIFIER", 
-                      "STRING", "ADD", "WS", "COMMENTS" ]
+                      "<INVALID>", "<INVALID>", "IDENTIFIER", "STAR", "STRING", 
+                      "ADD", "WS", "COMMENTS" ]
 
     RULE_block = 0
     RULE_command = 1
@@ -81,8 +80,8 @@ class InterpreterParser ( Parser ):
     T__10=11
     T__11=12
     T__12=13
-    T__13=14
-    IDENTIFIER=15
+    IDENTIFIER=14
+    STAR=15
     STRING=16
     ADD=17
     WS=18
@@ -141,7 +140,7 @@ class InterpreterParser ( Parser ):
             self.state = 14
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << InterpreterParser.T__0) | (1 << InterpreterParser.T__2) | (1 << InterpreterParser.T__7) | (1 << InterpreterParser.T__10) | (1 << InterpreterParser.T__13) | (1 << InterpreterParser.IDENTIFIER) | (1 << InterpreterParser.STRING))) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << InterpreterParser.T__0) | (1 << InterpreterParser.T__2) | (1 << InterpreterParser.T__7) | (1 << InterpreterParser.T__10) | (1 << InterpreterParser.IDENTIFIER) | (1 << InterpreterParser.STAR) | (1 << InterpreterParser.STRING))) != 0):
                 self.state = 11
                 self.command()
                 self.state = 16
@@ -305,7 +304,7 @@ class InterpreterParser ( Parser ):
                 self.state = 25
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << InterpreterParser.T__0) | (1 << InterpreterParser.T__2) | (1 << InterpreterParser.T__7) | (1 << InterpreterParser.T__10) | (1 << InterpreterParser.T__13) | (1 << InterpreterParser.IDENTIFIER) | (1 << InterpreterParser.STRING))) != 0):
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << InterpreterParser.T__0) | (1 << InterpreterParser.T__2) | (1 << InterpreterParser.T__7) | (1 << InterpreterParser.T__10) | (1 << InterpreterParser.IDENTIFIER) | (1 << InterpreterParser.STAR) | (1 << InterpreterParser.STRING))) != 0):
                     self.state = 22
                     self.command()
                     self.state = 27
@@ -630,7 +629,7 @@ class InterpreterParser ( Parser ):
                 self.state = 53
                 self.block()
 
-            elif token in [InterpreterParser.T__13, InterpreterParser.IDENTIFIER]:
+            elif token in [InterpreterParser.IDENTIFIER, InterpreterParser.STAR]:
                 localctx = InterpreterParser.ReferContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
@@ -723,6 +722,9 @@ class InterpreterParser ( Parser ):
         def IDENTIFIER(self):
             return self.getToken(InterpreterParser.IDENTIFIER, 0)
 
+        def STAR(self):
+            return self.getToken(InterpreterParser.STAR, 0)
+
         def getRuleIndex(self):
             return InterpreterParser.RULE_reference
 
@@ -750,17 +752,14 @@ class InterpreterParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 79
-            self._errHandler.sync(self)
+            self.state = 77
             _la = self._input.LA(1)
-            while _la==InterpreterParser.T__13:
+            if _la==InterpreterParser.STAR:
                 self.state = 76
-                self.match(InterpreterParser.T__13)
-                self.state = 81
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
+                self.match(InterpreterParser.STAR)
 
-            self.state = 82
+
+            self.state = 79
             self.match(InterpreterParser.IDENTIFIER)
         except RecognitionException as re:
             localctx.exception = re
