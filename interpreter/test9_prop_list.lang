@@ -1,0 +1,9 @@
+{
+    person.name = "John";
+    person.firstName = "Doe";
+
+    otherPerson = person;
+
+    {} + ("echo " + otherPerson.name + " should be John").syscall;
+    {} + ("echo " + otherPerson.firstName + " should be Doe").syscall;
+}

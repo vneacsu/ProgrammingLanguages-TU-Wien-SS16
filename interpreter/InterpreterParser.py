@@ -8,33 +8,35 @@ from antlr4 import *
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\25")
-        buf.write("T\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\7\2")
+        buf.write("Z\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\7\2")
         buf.write("\17\n\2\f\2\16\2\22\13\2\3\2\3\2\3\3\3\3\3\3\3\3\7\3\32")
         buf.write("\n\3\f\3\16\3\35\13\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3")
         buf.write("\3\3\3\3\3\3\3\3\3\3\3\3\5\3-\n\3\3\4\3\4\3\4\3\4\3\4")
         buf.write("\5\4\64\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5>\n\5\3")
         buf.write("\5\3\5\3\5\3\5\3\5\3\5\6\5F\n\5\r\5\16\5G\7\5J\n\5\f\5")
-        buf.write("\16\5M\13\5\3\6\5\6P\n\6\3\6\3\6\3\6\2\3\b\7\2\4\6\b\n")
-        buf.write("\2\3\4\2\b\b\13\13[\2\f\3\2\2\2\4,\3\2\2\2\6.\3\2\2\2")
-        buf.write("\b=\3\2\2\2\nO\3\2\2\2\f\20\7\3\2\2\r\17\5\4\3\2\16\r")
-        buf.write("\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2\20\21\3\2\2\2\21")
-        buf.write("\23\3\2\2\2\22\20\3\2\2\2\23\24\7\4\2\2\24\3\3\2\2\2\25")
-        buf.write("\26\7\5\2\2\26\27\5\6\4\2\27\33\7\6\2\2\30\32\5\4\3\2")
-        buf.write("\31\30\3\2\2\2\32\35\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2")
-        buf.write("\2\34\36\3\2\2\2\35\33\3\2\2\2\36\37\7\7\2\2\37-\3\2\2")
-        buf.write("\2 !\5\n\6\2!\"\7\b\2\2\"#\5\b\5\2#$\7\t\2\2$-\3\2\2\2")
-        buf.write("%&\5\b\5\2&\'\7\t\2\2\'-\3\2\2\2()\7\n\2\2)*\5\b\5\2*")
-        buf.write("+\7\t\2\2+-\3\2\2\2,\25\3\2\2\2, \3\2\2\2,%\3\2\2\2,(")
-        buf.write("\3\2\2\2-\5\3\2\2\2./\5\b\5\2/\60\t\2\2\2\60\63\5\b\5")
-        buf.write("\2\61\62\7\f\2\2\62\64\5\6\4\2\63\61\3\2\2\2\63\64\3\2")
-        buf.write("\2\2\64\7\3\2\2\2\65\66\b\5\1\2\66>\7\22\2\2\67>\5\2\2")
-        buf.write("\28>\5\n\6\29:\7\r\2\2:;\5\b\5\2;<\7\16\2\2<>\3\2\2\2")
-        buf.write("=\65\3\2\2\2=\67\3\2\2\2=8\3\2\2\2=9\3\2\2\2>K\3\2\2\2")
-        buf.write("?@\f\3\2\2@A\7\23\2\2AJ\5\b\5\4BE\f\4\2\2CD\7\17\2\2D")
-        buf.write("F\7\20\2\2EC\3\2\2\2FG\3\2\2\2GE\3\2\2\2GH\3\2\2\2HJ\3")
-        buf.write("\2\2\2I?\3\2\2\2IB\3\2\2\2JM\3\2\2\2KI\3\2\2\2KL\3\2\2")
-        buf.write("\2L\t\3\2\2\2MK\3\2\2\2NP\7\21\2\2ON\3\2\2\2OP\3\2\2\2")
-        buf.write("PQ\3\2\2\2QR\7\20\2\2R\13\3\2\2\2\13\20\33,\63=GIKO")
+        buf.write("\16\5M\13\5\3\6\5\6P\n\6\3\6\3\6\3\6\7\6U\n\6\f\6\16\6")
+        buf.write("X\13\6\3\6\2\3\b\7\2\4\6\b\n\2\3\4\2\b\b\13\13b\2\f\3")
+        buf.write("\2\2\2\4,\3\2\2\2\6.\3\2\2\2\b=\3\2\2\2\nO\3\2\2\2\f\20")
+        buf.write("\7\3\2\2\r\17\5\4\3\2\16\r\3\2\2\2\17\22\3\2\2\2\20\16")
+        buf.write("\3\2\2\2\20\21\3\2\2\2\21\23\3\2\2\2\22\20\3\2\2\2\23")
+        buf.write("\24\7\4\2\2\24\3\3\2\2\2\25\26\7\5\2\2\26\27\5\6\4\2\27")
+        buf.write("\33\7\6\2\2\30\32\5\4\3\2\31\30\3\2\2\2\32\35\3\2\2\2")
+        buf.write("\33\31\3\2\2\2\33\34\3\2\2\2\34\36\3\2\2\2\35\33\3\2\2")
+        buf.write("\2\36\37\7\7\2\2\37-\3\2\2\2 !\5\n\6\2!\"\7\b\2\2\"#\5")
+        buf.write("\b\5\2#$\7\t\2\2$-\3\2\2\2%&\5\b\5\2&\'\7\t\2\2\'-\3\2")
+        buf.write("\2\2()\7\n\2\2)*\5\b\5\2*+\7\t\2\2+-\3\2\2\2,\25\3\2\2")
+        buf.write("\2, \3\2\2\2,%\3\2\2\2,(\3\2\2\2-\5\3\2\2\2./\5\b\5\2")
+        buf.write("/\60\t\2\2\2\60\63\5\b\5\2\61\62\7\f\2\2\62\64\5\6\4\2")
+        buf.write("\63\61\3\2\2\2\63\64\3\2\2\2\64\7\3\2\2\2\65\66\b\5\1")
+        buf.write("\2\66>\7\22\2\2\67>\5\2\2\28>\5\n\6\29:\7\r\2\2:;\5\b")
+        buf.write("\5\2;<\7\16\2\2<>\3\2\2\2=\65\3\2\2\2=\67\3\2\2\2=8\3")
+        buf.write("\2\2\2=9\3\2\2\2>K\3\2\2\2?@\f\3\2\2@A\7\23\2\2AJ\5\b")
+        buf.write("\5\4BE\f\4\2\2CD\7\17\2\2DF\7\20\2\2EC\3\2\2\2FG\3\2\2")
+        buf.write("\2GE\3\2\2\2GH\3\2\2\2HJ\3\2\2\2I?\3\2\2\2IB\3\2\2\2J")
+        buf.write("M\3\2\2\2KI\3\2\2\2KL\3\2\2\2L\t\3\2\2\2MK\3\2\2\2NP\7")
+        buf.write("\21\2\2ON\3\2\2\2OP\3\2\2\2PQ\3\2\2\2QV\7\20\2\2RS\7\17")
+        buf.write("\2\2SU\7\20\2\2TR\3\2\2\2UX\3\2\2\2VT\3\2\2\2VW\3\2\2")
+        buf.write("\2W\13\3\2\2\2XV\3\2\2\2\f\20\33,\63=GIKOV")
         return buf.getvalue()
 
 
@@ -719,8 +721,11 @@ class InterpreterParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def IDENTIFIER(self):
-            return self.getToken(InterpreterParser.IDENTIFIER, 0)
+        def IDENTIFIER(self, i:int=None):
+            if i is None:
+                return self.getTokens(InterpreterParser.IDENTIFIER)
+            else:
+                return self.getToken(InterpreterParser.IDENTIFIER, i)
 
         def STAR(self):
             return self.getToken(InterpreterParser.STAR, 0)
@@ -761,6 +766,19 @@ class InterpreterParser ( Parser ):
 
             self.state = 79
             self.match(InterpreterParser.IDENTIFIER)
+            self.state = 84
+            self._errHandler.sync(self)
+            _alt = self._interp.adaptivePredict(self._input,9,self._ctx)
+            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
+                if _alt==1:
+                    self.state = 80
+                    self.match(InterpreterParser.T__12)
+                    self.state = 81
+                    self.match(InterpreterParser.IDENTIFIER) 
+                self.state = 86
+                self._errHandler.sync(self)
+                _alt = self._interp.adaptivePredict(self._input,9,self._ctx)
+
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)

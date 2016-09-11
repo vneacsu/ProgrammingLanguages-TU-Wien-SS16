@@ -1,0 +1,40 @@
+{
+    transferMoney = { % fromPerson, toPerson, amount
+        fromMessage = "Transferring from person: " + fromPerson.firstName + " " + fromPerson.name;
+        toMessage = "Transferring to person: " + toPerson.firstName + " " + toPerson.name;
+        {} + ("echo " + fromMessage).syscall;
+        {} + ("echo " + toMessage).syscall;
+
+        fromPersonHasEnoughMoney = {} + ("test " + amount + " -le " + fromPerson.balance).syscall;
+        [ fromPersonHasEnoughMoney = "1":
+            ^ "ERROR";
+        ]
+
+        fromPerson.balance = {} + ("echo " + fromPerson.balance + "-" + amount + " |bc").iosyscall;
+        toPerson.balance = {} + ("echo " + toPerson.balance + "+" + amount + " |bc").iosyscall;
+
+        ^ "OK";
+    };
+
+
+
+    john.firstName = "John";
+    john.name = "Doe";
+    john.balance = "200";
+
+    max.firstName = "Max";
+    max.name = "Mustermann";
+    max.balance = "300";
+
+    {} + ("echo --- BEFORE ---").syscall;
+    {} + ("echo John\'s balance: " + john.balance).syscall;
+    {} + ("echo Max\'s balance: " + max.balance).syscall;
+
+    {} + ("echo --- PROCESSING ---").syscall;
+    status = { fromPerson = *john; toPerson = *max; amount = "100"; } + transferMoney;
+
+    {} + ("echo --- AFTER ---").syscall;
+    {} + ("echo Transfer Status: " + status).syscall;
+    {} + ("echo John\'s balance: " + john.balance).syscall;
+    {} + ("echo Max\'s balance: " + max.balance).syscall;
+}
