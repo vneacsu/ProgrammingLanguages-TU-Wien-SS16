@@ -1,7 +1,7 @@
 package at.tuwien.progspr16.calculator.interpreter
 
 import at.tuwien.progspr16.calculator.grammar.CalculatorBaseVisitor
-import at.tuwien.progspr16.calculator.grammar.CalculatorParser.{CalculatorContext, IntegerContext, OperationContext}
+import at.tuwien.progspr16.calculator.grammar.CalculatorParser.{BlockContext, CalculatorContext, IntegerContext, OperationContext}
 import com.typesafe.scalalogging.Logger
 
 class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
@@ -10,19 +10,28 @@ class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
   var stack = List[StackContent]()
 
   def getCurrentState = stack
-    .map(e => e.asInstanceOf[IntStackContent].value)
+    .reverse
+    .map {
+      case IntStackContent(value) => value
+      case BlockStackContent(value) => value.getText
+    }
     .mkString(" ")
 
   override def visitCalculator(ctx: CalculatorContext): Unit = {
     visitChildren(ctx)
 
     val output = stack
+      .reverse
       .mkString(", ")
     logger.info(s"$output")
   }
 
   override def visitInteger(ctx: IntegerContext): Unit = {
     stack = IntStackContent(ctx.getText.toInt) :: stack
+  }
+
+  override def visitBlock(ctx: BlockContext): Unit = {
+    stack = BlockStackContent(ctx) :: stack
   }
 
   override def visitOperation(ctx: OperationContext): Unit = {
@@ -37,49 +46,91 @@ class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
       case "=" => performBoolOperation((el1, el2) => el1.value == el2.value)
       case "<" => performBoolOperation((el1, el2) => el1.value < el2.value)
       case ">" => performBoolOperation((el1, el2) => el1.value > el2.value)
+      case "~" => performNegation()
+      case "a" => performApplyOperation()
+      case "c" => performCopyOperation()
+      case "d" => performDeleteOperation()
       case op => throw new UnsupportedOperationException(s"Unsupported operation '$op'")
     }
   }
 
-  def performIntOperation(func: (IntStackContent, IntStackContent) => Int): Unit = {
-    val (el1, el2, poppedStack) = CalculatorInterpretVisitor.popTop2Elems(stack)
+  def performDeleteOperation(): Unit =
+    stack = {
+      stack.head match {
+        case IntStackContent(value) =>
+          stack.tail.take(value - 1) ++ stack.tail.drop(value)
+        case _ => throw new IllegalArgumentException
+      }
+    }
 
-    val newElem = func(el1.asInstanceOf[IntStackContent], el2.asInstanceOf[IntStackContent])
-    stack = IntStackContent(newElem) :: poppedStack
+  def performCopyOperation(): Unit =
+    stack = {
+      stack.head match {
+        case IntStackContent(value) =>
+          stack(value) :: stack.tail
+        case _ => throw new IllegalArgumentException
+      }
+    }
+
+  def performNegation(): Unit = {
+    stack = stack.head match {
+      case IntStackContent(value) => IntStackContent(value * -1) :: stack.tail
+      case _ => throw new IllegalArgumentException
+    }
   }
 
-  def performBitsOperation(func: (IntStackContent, IntStackContent) => Int): Unit = {
-    val (el1, el2, poppedStack) = CalculatorInterpretVisitor.popTop2Elems(stack)
+  private def performApplyOperation(): Unit = {
+    stack.head match {
+      case BlockStackContent(ctx) =>
+        stack = stack.tail
+        visit(ctx.calculator())
+      case _ => throw new IllegalArgumentException
+    }
+  }
+
+  private def performIntOperation(func: (IntStackContent, IntStackContent) => Int): Unit = {
+    val (el1, el2) = CalculatorInterpretVisitor.takeTop2Elems(stack)
+
+    stack = (el1, el2) match {
+      case (el1: IntStackContent, el2: IntStackContent) => IntStackContent(func(el1, el2)) :: stack.drop(2)
+      case _ => throw new IllegalArgumentException
+    }
+  }
+
+  private def performBitsOperation(func: (IntStackContent, IntStackContent) => Int): Unit = {
+    val (el1, el2) = CalculatorInterpretVisitor.takeTop2Elems(stack)
 
     val validValues = Set[StackContent](IntStackContent(0), IntStackContent(1))
 
     if (!validValues.contains(el1) || !validValues.contains(el2)) {
       throw new IllegalArgumentException
     } else {
-      val newElem = func(el1.asInstanceOf[IntStackContent], el2.asInstanceOf[IntStackContent])
-      stack = IntStackContent(newElem) :: poppedStack
+      stack = (el1, el2) match {
+        case (el1: IntStackContent, el2: IntStackContent) => IntStackContent(func(el1, el2)) :: stack.drop(2)
+        case _ => throw new IllegalArgumentException
+      }
     }
   }
 
-  def performBoolOperation(func: (IntStackContent, IntStackContent) => Boolean): Unit = {
-    val (el1, el2, poppedStack) = CalculatorInterpretVisitor.popTop2Elems(stack)
+  private def performBoolOperation(func: (IntStackContent, IntStackContent) => Boolean): Unit = {
+    val (el1, el2) = CalculatorInterpretVisitor.takeTop2Elems(stack)
 
-    val funcResult = func(el1.asInstanceOf[IntStackContent], el2.asInstanceOf[IntStackContent])
-    val newElem: IntStackContent = if (funcResult) IntStackContent(1) else IntStackContent(0)
-    stack = newElem :: poppedStack
+    stack = (el1, el2) match {
+      case (el1: IntStackContent, el2: IntStackContent) =>
+        if (func(el1, el2)) IntStackContent(1) :: stack.drop(2)
+        else IntStackContent(0) :: stack.drop(2)
+      case _ => throw new IllegalArgumentException
+    }
   }
 
   sealed trait StackContent
 
   case class IntStackContent(value: Int) extends StackContent
 
+  case class BlockStackContent(blockCtx: BlockContext) extends StackContent
+
 }
 
 object CalculatorInterpretVisitor {
-  def popTop2Elems[T](stack: List[T]) = {
-    val el1 = stack.head
-    val el2 = stack.tail.head
-
-    (el1, el2, stack.drop(2))
-  }
+  def takeTop2Elems[T](stack: List[T]): (T, T) = (stack.head, stack.tail.head)
 }
