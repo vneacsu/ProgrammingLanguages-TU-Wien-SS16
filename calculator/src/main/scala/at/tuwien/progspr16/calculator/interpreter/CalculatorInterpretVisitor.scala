@@ -4,12 +4,10 @@ import at.tuwien.progspr16.calculator.grammar.CalculatorBaseVisitor
 import at.tuwien.progspr16.calculator.grammar.CalculatorParser.{CalculatorContext, IntegerContext, OperationContext}
 import com.typesafe.scalalogging.Logger
 
-import scala.collection.immutable.Stack
-
 class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
   val logger = Logger(classOf[CalculatorInterpretVisitor])
 
-  var stack = Stack[StackContent]()
+  var stack = List[StackContent]()
 
   def getCurrentState = stack
     .map(e => e.asInstanceOf[IntStackContent].value)
@@ -24,7 +22,7 @@ class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
   }
 
   override def visitInteger(ctx: IntegerContext): Unit = {
-    stack = stack.push(IntStackContent(ctx.getText.toInt))
+    stack = IntStackContent(ctx.getText.toInt) :: stack
   }
 
   override def visitOperation(ctx: OperationContext): Unit = {
@@ -47,7 +45,7 @@ class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
     val (el1, el2, poppedStack) = CalculatorInterpretVisitor.popTop2Elems(stack)
 
     val newElem = func(el1.asInstanceOf[IntStackContent], el2.asInstanceOf[IntStackContent])
-    stack = poppedStack.push(IntStackContent(newElem))
+    stack = IntStackContent(newElem) :: poppedStack
   }
 
   def performBitsOperation(func: (IntStackContent, IntStackContent) => Int): Unit = {
@@ -59,7 +57,7 @@ class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
       throw new IllegalArgumentException
     } else {
       val newElem = func(el1.asInstanceOf[IntStackContent], el2.asInstanceOf[IntStackContent])
-      stack = poppedStack.push(IntStackContent(newElem))
+      stack = IntStackContent(newElem) :: poppedStack
     }
   }
 
@@ -68,7 +66,7 @@ class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
 
     val funcResult = func(el1.asInstanceOf[IntStackContent], el2.asInstanceOf[IntStackContent])
     val newElem: IntStackContent = if (funcResult) IntStackContent(1) else IntStackContent(0)
-    stack = poppedStack.push(newElem)
+    stack = newElem :: poppedStack
   }
 
   sealed trait StackContent
@@ -78,10 +76,10 @@ class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
 }
 
 object CalculatorInterpretVisitor {
-  def popTop2Elems[T](stack: Stack[T]) = {
-    val (el1, stack1) = stack.pop2
-    val (el2, stack2) = stack1.pop2
+  def popTop2Elems[T](stack: List[T]) = {
+    val el1 = stack.head
+    val el2 = stack.tail.head
 
-    (el1, el2, stack2)
+    (el1, el2, stack.drop(2))
   }
 }
