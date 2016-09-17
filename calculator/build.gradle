@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'application'
 apply plugin: 'java'
 apply plugin: 'antlr'
+apply plugin: 'scala'
 
 mainClassName = "at.tuwien.progspr16.calculator.interpreter.Main"
 
@@ -12,6 +13,7 @@ repositories {
 
 dependencies {
     antlr "org.antlr:antlr4:4.5"
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.8'
 }
 
 generateGrammarSource {
