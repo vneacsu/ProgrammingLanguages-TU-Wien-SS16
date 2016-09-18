@@ -23,7 +23,7 @@ class CalculatorInterpretVisitor(calculator: Calculator) extends CalculatorBaseV
     val output = stack
       .reverse
       .mkString(", ")
-    logger.debug(s"$output")
+//    logger.debug(s"$output")
   }
 
   override def visitInteger(ctx: IntegerContext): Unit = {
@@ -69,7 +69,8 @@ class CalculatorInterpretVisitor(calculator: Calculator) extends CalculatorBaseV
   }
 
   def performReadBlock(): Unit = {
-    ???
+    val blockCtx = calculator.readBlockCtx()
+    stack = BlockStackContent(blockCtx)  :: stack
   }
 
   def performDeleteOperation(): Unit =

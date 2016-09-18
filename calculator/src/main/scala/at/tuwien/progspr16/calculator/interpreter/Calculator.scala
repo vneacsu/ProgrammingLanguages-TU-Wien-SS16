@@ -3,14 +3,15 @@ package at.tuwien.progspr16.calculator.interpreter
 import java.io.{InputStream, PrintStream}
 import java.util.Scanner
 
+import at.tuwien.progspr16.calculator.grammar.CalculatorParser.BlockContext
+import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.tree.ParseTree
 
 class Calculator(in: InputStream = System.in, out: PrintStream = System.out) {
-
   val scanner: Scanner = new Scanner(in)
+
   private var active: Boolean = true
   private val interpreter: CalculatorInterpretVisitor = new CalculatorInterpretVisitor(this)
-
   def run(): Unit = {
     while (active) {
       val optNextLine = nextCalculatorExpression
@@ -37,7 +38,12 @@ class Calculator(in: InputStream = System.in, out: PrintStream = System.out) {
     interpreter.getCurrentState
   }
 
-  def write(text: String) = out.print(text)
+  def write(text: String) = out.print(text+ " ")
 
   def readInt() = scanner.nextInt()
+
+  def readBlockCtx(): BlockContext = {
+    val parseTree = ParseUtils.parseCalculatorExpression(scanner.next)
+    parseTree.asInstanceOf[ParserRuleContext].children.get(0).asInstanceOf[BlockContext]
+  }
 }
