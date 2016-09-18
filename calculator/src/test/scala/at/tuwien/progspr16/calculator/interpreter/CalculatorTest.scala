@@ -1,7 +1,10 @@
 package at.tuwien.progspr16.calculator.interpreter
 
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 import org.scalatest.{BeforeAndAfter, FunSuite, Matchers}
 
+@RunWith(classOf[JUnitRunner])
 class CalculatorTest extends FunSuite with Matchers with BeforeAndAfter {
 
   test("compute basic operations with two numbers") {
