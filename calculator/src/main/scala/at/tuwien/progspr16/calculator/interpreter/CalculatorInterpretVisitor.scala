@@ -4,7 +4,7 @@ import at.tuwien.progspr16.calculator.grammar.CalculatorBaseVisitor
 import at.tuwien.progspr16.calculator.grammar.CalculatorParser.{BlockContext, CalculatorContext, IntegerContext, OperationContext}
 import com.typesafe.scalalogging.Logger
 
-class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
+class CalculatorInterpretVisitor(calculator: Calculator) extends CalculatorBaseVisitor[Unit] {
   val logger = Logger(classOf[CalculatorInterpretVisitor])
 
   var stack = List[StackContent]()
@@ -23,7 +23,7 @@ class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
     val output = stack
       .reverse
       .mkString(", ")
-    logger.info(s"$output")
+    logger.debug(s"$output")
   }
 
   override def visitInteger(ctx: IntegerContext): Unit = {
@@ -50,8 +50,26 @@ class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
       case "a" => performApplyOperation()
       case "c" => performCopyOperation()
       case "d" => performDeleteOperation()
+      case "w" => performWrite()
+      case "i" => performReadInteger()
+      case "b" => performReadBlock()
+      case "x" => calculator.setInactive()
       case op => throw new UnsupportedOperationException(s"Unsupported operation '$op'")
     }
+  }
+
+  def performWrite(): Unit = {
+    calculator.write(stack.head.toString)
+    stack = stack.tail
+  }
+
+  def performReadInteger(): Unit = {
+    val int = calculator.readInt()
+    stack = IntStackContent(int) :: stack
+  }
+
+  def performReadBlock(): Unit = {
+    ???
   }
 
   def performDeleteOperation(): Unit =
@@ -125,9 +143,17 @@ class CalculatorInterpretVisitor extends CalculatorBaseVisitor[Unit] {
 
   sealed trait StackContent
 
-  case class IntStackContent(value: Int) extends StackContent
+  case class IntStackContent(value: Int) extends StackContent {
+    override def toString: String = {
+      value.toString
+    }
+  }
 
-  case class BlockStackContent(blockCtx: BlockContext) extends StackContent
+  case class BlockStackContent(blockCtx: BlockContext) extends StackContent {
+    override def toString: String = {
+      blockCtx.getText
+    }
+  }
 
 }
 
